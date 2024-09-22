@@ -7,6 +7,7 @@ const createTables = async () => {
     DROP TABLE IF EXISTS users;
     CREATE TABLE users(
       id UUID PRIMARY KEY,
+      created_at TIMESTAMP DEFAULT now(),
       username VARCHAR(20) UNIQUE NOT NULL,
       password VARCHAR(255) NOT NULL
     );
