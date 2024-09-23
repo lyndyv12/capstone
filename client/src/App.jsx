@@ -56,8 +56,7 @@ function App() {
     try {
       const response = await fetch("/api/users");
       const data = await response.json();
-      console.log("Fetched users:", data); // Debugging: Check the data
-      setUsers(data); // Update the state with the fetched users
+      setUsers(data); 
     } catch (error) {
       console.error("Error fetching users:", error);
     }
