@@ -14,6 +14,7 @@ function App() {
   useEffect(() => {
     attemptLoginWithToken();
     getUsers();
+    getBusinesses();
   }, []);
 
   const attemptLoginWithToken = async () => {
@@ -59,6 +60,17 @@ function App() {
       setUsers(data); 
     } catch (error) {
       console.error("Error fetching users:", error);
+    }
+  };
+
+  const getBusinesses = async () => {
+    console.log("getBusinesses function called"); 
+    try {
+      const response = await fetch("/api/businesses");
+      const data = await response.json();
+      setBusinesses(data); 
+    } catch (error) {
+      console.error("Error fetching businesses:", error);
     }
   };
 

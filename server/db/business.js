@@ -1,4 +1,4 @@
-const { client } = require("./client"); // Make sure the path is correct
+const { client } = require("./client");
 const uuid = require("uuid");
 
 const createBusiness = async ({ name_full }) => {
