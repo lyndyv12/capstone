@@ -1,21 +1,34 @@
 const { client } = require("./client");
 const uuid = require("uuid");
 
-const { createUser, fetchUsers, createBusiness, fetchBusinesses } = require("./index.js");
+const { createUser, fetchUsers, createBusiness, fetchBusinesses, createReview, fetchReviews } = require("./index.js");
 
 const createTables = async () => {
   const SQL = `
+    DROP TABLE IF EXISTS reviews;
     DROP TABLE IF EXISTS users;
+    DROP TABLE IF EXISTS businesses;
+
+
     CREATE TABLE users(
       id UUID PRIMARY KEY,
       created_at TIMESTAMP DEFAULT now(),
       username VARCHAR(20) UNIQUE NOT NULL,
       password VARCHAR(255) NOT NULL
     );
-    DROP TABLE IF EXISTS businesses;
+    
     CREATE TABLE businesses(
       id UUID PRIMARY KEY,
       name_full VARCHAR(255) NOT NULL
+    );
+    
+    CREATE TABLE reviews(
+      id UUID PRIMARY KEY,
+      title VARCHAR(255) NOT NULL,
+      description VARCHAR(1056) NOT NULL,
+      user_id UUID REFERENCES users(id), 
+      business_id UUID REFERENCES businesses(id), 
+      rating INT CHECK (rating >= 1 AND rating <= 5)
     );
   `;
   await client.query(SQL);
@@ -45,6 +58,12 @@ const init = async () => {
   ]);
 
   console.log(await fetchBusinesses());
+
+  const [review1] = await Promise.all([
+    createReview({ title: "Great service", description: "they are great. We loved it.", user_id: moe.id , business_id: biz1.id, rating: 4}),
+  ]);
+
+  console.log(await fetchReviews());
 
 
   client.end();
