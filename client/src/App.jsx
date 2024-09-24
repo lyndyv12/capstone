@@ -15,6 +15,7 @@ function App() {
     attemptLoginWithToken();
     getUsers();
     getBusinesses();
+    getReviews();
   }, []);
 
   const attemptLoginWithToken = async () => {
@@ -71,6 +72,17 @@ function App() {
       setBusinesses(data); 
     } catch (error) {
       console.error("Error fetching businesses:", error);
+    }
+  };
+
+  const getReviews = async () => {
+    console.log("getReviews function called"); 
+    try {
+      const response = await fetch("/api/reviews");
+      const data = await response.json();
+      setReviews(data); 
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
     }
   };
 
