@@ -121,10 +121,23 @@ function App() {
         />
         <Route
           path="/businesses"
-          element={<Businesses businesses={businesses} />}
+          element={
+            <Businesses 
+              businesses={businesses}
+              auth={auth} 
+            />
+          }
         />
-        <Route path="/users" element={<Users users={users} />} />
-        {!!auth.id && <Route path="/createReview" element={<CreateReview />} />}
+        <Route path="/users" 
+          element={<Users users={users} />} 
+        />
+
+        {!!auth.id && <Route path="/createReview" 
+          element={<CreateReview 
+            auth={auth}
+            businesses={businesses}
+          />} 
+        />}
       </Routes>
     </>
   );
