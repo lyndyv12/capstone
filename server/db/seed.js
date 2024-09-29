@@ -24,8 +24,16 @@ const createTables = async () => {
       city VARCHAR(64) NOT NULL,
       state VARCHAR(64) NOT NULL,
       zip VARCHAR(64) NOT NULL,
-      business_type VARCHAR(64) NOT NULL
-    );
+      business_type VARCHAR(64) NOT NULL,
+      price_range VARCHAR(5) CHECK (price_range IN ('$','$$','$$$','$$$$')),
+  
+      -- Boolean flags for major feature categories
+      hasKidsSeating BOOLEAN DEFAULT false,
+      hasChangingStation BOOLEAN DEFAULT false,
+  
+      -- Additional details stored in JSONB
+      features JSONB DEFAULT '{}'
+      );
     
     CREATE TABLE reviews(
       id UUID PRIMARY KEY,
@@ -56,16 +64,93 @@ const init = async () => {
   console.log(await fetchUsers());
 
   const [biz1, biz2, biz3, biz4] = await Promise.all([
-    createBusiness({ name_full: "biz1", street_address: "5019 Venetian Way", city: "Versailles", state: "Kentucky", zip: "40383", business_type: "Fast Casual Restaurant" }),
-    createBusiness({ name_full: "biz2", street_address: "5019 Venetian Way", city: "Versailles", state: "Kentucky", zip: "40383", business_type: "Sit Down Restaurant" }),
-    createBusiness({ name_full: "biz3", street_address: "5019 Venetian Way", city: "Versailles", state: "Kentucky", zip: "40383", business_type: "Fast Casual Restaurant" }),
-    createBusiness({ name_full: "biz4", street_address: "5019 Venetian Way", city: "Versailles", state: "Kentucky", zip: "40383", business_type: "Fast Casual Restaurant" }),
+    createBusiness({ 
+      name_full: "Sunset Bistro", 
+      street_address: "5019 Venetian Way", 
+      city: "Versailles", 
+      state: "Kentucky", 
+      zip: "40383", 
+      business_type: "Fast Casual Restaurant",
+      price_range: "$$",
+    
+      hasKidsSeating: true, 
+      hasChangingStation: true,
+      
+      features: {
+        kidsSeatingOptions: ['High Chairs', 'Booster Seats'], 
+        changingStationLocations: ['Mens Restroom', 'Womens Restroom']
+      }
+    }),
+    createBusiness({ 
+      name_full: "Lyndy's Pub", 
+      street_address: "108 Spring Run Street", 
+      city: "Versailles", 
+      state: "Kentucky", 
+      zip: "40383", 
+      business_type: "Bar",
+      price_range: "$",
+      hasKidsSeating: false,
+      hasChangingStation: true,
+      features: {
+        changingStationLocations: ['Womens Restroom']
+      }
+    }),
+    createBusiness({ 
+      name_full: "Zach's Cocktail Bar", 
+      street_address: "5019 Venetian Way", 
+      city: "Versailles", 
+      state: "Kentucky", 
+      zip: "40383", 
+      business_type: "Bar",
+      price_range: "$$$$",
+    
+      hasKidsSeating: false, 
+      hasChangingStation: false,
+      
+    }),
+    createBusiness({ 
+      name_full: "Tuck's Place", 
+      street_address: "5019 Venetian Way", 
+      city: "Versailles", 
+      state: "Kentucky", 
+      zip: "40383", 
+      business_type: "Fast Casual Restaurant",
+      price_range: "$",
+    
+      hasKidsSeating: true, 
+      hasChangingStation: true,
+      
+      features: {
+        kidsSeatingOptions: ['High Chairs'], 
+        changingStationLocations: ['Womens Restroom']
+      }
+    }),
   ]);
 
   console.log(await fetchBusinesses());
 
-  const [review1] = await Promise.all([
-    createReview({ title: "Great service", description: "they are great. We loved it.", user_id: moe.id , business_id: biz1.id, rating: 4}),
+  const [review1, review2, review3] = await Promise.all([
+    createReview({ 
+      title: "super kid friendly", 
+      description: "they are great. We loved it.", 
+      user_id: moe.id, 
+      business_id: biz1.id, 
+      rating: 1
+    }),
+    createReview({ 
+      title: "don't bring kids here", 
+      description: "they are great. We loved it.", 
+      user_id: moe.id, 
+      business_id: biz1.id, 
+      rating: 4
+    }),
+    createReview({ 
+      title: "Best restuarant ever for kids", 
+      description: "they are great. We loved it.", 
+      user_id: lucy.id, 
+      business_id: biz2.id, 
+      rating: 4
+    }),
   ]);
 
   console.log(await fetchReviews());
