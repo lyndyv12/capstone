@@ -4,6 +4,9 @@ import Users from "./pages/Users";
 import Businesses from "./pages/Businesses";
 import CreateReview from "./pages/CreateReview";
 import Home from "./pages/Home";
+import BusinessDetail from "./components/BusinessDetail";
+import BusinessCard from "./components/BusinessCard";
+import UserReviews from "./components/UserReviews";
 
 function App() {
   const [auth, setAuth] = useState({});
@@ -128,8 +131,27 @@ function App() {
             />
           }
         />
+        <Route 
+          path="/businesses/:id" 
+          element={
+            <BusinessCard />
+          } 
+        />
+
+        <Route 
+          path="/businesses/:id/details" 
+          element={
+            <BusinessDetail />
+          } 
+        />
+
+
         <Route path="/users" 
           element={<Users users={users} />} 
+        />
+
+        <Route path="/users/:id" 
+          element={<UserReviews users={users} />} 
         />
 
         {!!auth.id && <Route path="/createReview" 

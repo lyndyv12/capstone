@@ -22,4 +22,19 @@ const fetchReviews = async () => {
   return response.rows;
 };
 
-module.exports = { createReview, fetchReviews };
+const getUsersReviews = async(user_id) => {
+  try{
+    const SQL = 'SELECT * FROM reviews JOIN users ON reviews.user_id = users.id AND user_id=$1';
+
+    const { rows } = await client.query(SQL, [user_id]);
+    if(!rows) 
+      return;
+    console.log(rows);
+    return rows;
+
+  } catch (err) { 
+    throw(err)
+  }
+}
+
+module.exports = { createReview, fetchReviews, getUsersReviews };

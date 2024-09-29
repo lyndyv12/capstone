@@ -1,14 +1,18 @@
-import React from 'react'
+import { useEffect } from 'react';
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
-function BusinessCard( { business }) {
-    console.log(business);
-  return (
+function BusinessCard({ business }) {
+
+    const navigate = useNavigate();
+
+return (
     <div>
-        <h3>Name: {business?.name_full} </h3> 
-        <button>See Details</button>
-
+        <h3>Name: {business?.name_full || 'Loading...'} </h3>
+            <h4> {business?.street_address} </h4> 
+        <button onClick={()=> navigate(`/businesses/${business.id}/details`)}>See Details</button>
     </div>
-  )
+);
 }
-
-export default BusinessCard
+  
+export default BusinessCard;

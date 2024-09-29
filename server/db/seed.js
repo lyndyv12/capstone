@@ -19,7 +19,12 @@ const createTables = async () => {
     
     CREATE TABLE businesses(
       id UUID PRIMARY KEY,
-      name_full VARCHAR(255) NOT NULL
+      name_full VARCHAR(255) NOT NULL,
+      street_address VARCHAR(255) NOT NULL,
+      city VARCHAR(64) NOT NULL,
+      state VARCHAR(64) NOT NULL,
+      zip VARCHAR(64) NOT NULL,
+      business_type VARCHAR(64) NOT NULL
     );
     
     CREATE TABLE reviews(
@@ -51,10 +56,10 @@ const init = async () => {
   console.log(await fetchUsers());
 
   const [biz1, biz2, biz3, biz4] = await Promise.all([
-    createBusiness({ name_full: "biz1" }),
-    createBusiness({ name_full: "biz2" }),
-    createBusiness({ name_full: "biz3" }),
-    createBusiness({ name_full: "biz4" }),
+    createBusiness({ name_full: "biz1", street_address: "5019 Venetian Way", city: "Versailles", state: "Kentucky", zip: "40383", business_type: "Fast Casual Restaurant" }),
+    createBusiness({ name_full: "biz2", street_address: "5019 Venetian Way", city: "Versailles", state: "Kentucky", zip: "40383", business_type: "Sit Down Restaurant" }),
+    createBusiness({ name_full: "biz3", street_address: "5019 Venetian Way", city: "Versailles", state: "Kentucky", zip: "40383", business_type: "Fast Casual Restaurant" }),
+    createBusiness({ name_full: "biz4", street_address: "5019 Venetian Way", city: "Versailles", state: "Kentucky", zip: "40383", business_type: "Fast Casual Restaurant" }),
   ]);
 
   console.log(await fetchBusinesses());
