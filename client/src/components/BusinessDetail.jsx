@@ -30,8 +30,8 @@ function BusinessDetail() {
     return (
       <div>
         <h3>Business Name: {businessDetails?.name_full || 'Loading...'}</h3>
-        <p>Description: {businessDetails?.business_type || 'No description available.'}</p>
-        <p>Address: {businessDetails?.street_address || 'No address provided.'}</p>
+        <p>Description: {businessDetails?.business_type}</p>
+        <p>Address: {businessDetails?.street_address}</p>
       </div>
     );
 }

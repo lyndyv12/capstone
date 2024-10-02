@@ -59,7 +59,7 @@ function App() {
   const getUsers = async () => {
     console.log("getUsers function called"); 
     try {
-      const response = await fetch("/api/users");
+      const response = await fetch("/api/users/UsersWithReviewSummary");
       const data = await response.json();
       setUsers(data); 
     } catch (error) {

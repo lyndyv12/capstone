@@ -55,6 +55,20 @@ const fetchUsers = async () => {
   return response.rows;
 };
 
+const getUsersWithReviewSummary = async () => {
+  const SQL = `
+    SELECT
+      u.id,
+      u.username,
+      COUNT(r.id) AS review_count
+    FROM users u
+    LEFT JOIN reviews r ON u.id = r.user_id
+    GROUP BY u.id;
+  `;
+  const response = await client.query(SQL);
+  return response.rows;
+};
+
 const authenticate = async ({ username, password }) => {
   const SQL = `
     SELECT id, username, password FROM users WHERE username=$1;
@@ -72,4 +86,4 @@ const authenticate = async ({ username, password }) => {
   return { token };
 };
 
-module.exports = { createUser, findUserWithToken, fetchUsers, authenticate };
+module.exports = { createUser, findUserWithToken, fetchUsers, getUsersWithReviewSummary, authenticate };

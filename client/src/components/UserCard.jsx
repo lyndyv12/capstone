@@ -9,6 +9,8 @@ function UserCard({ user }) {
 return (
     <div>
         <h3>Name: {user?.username || 'Loading...'} </h3>
+        <h3>Review: {user?.review_count || 'Loading...'} </h3>
+
         <button onClick={()=> navigate(`/users/${user.id}`)}>See Details</button>
         
     </div>

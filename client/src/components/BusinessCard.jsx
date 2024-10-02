@@ -9,7 +9,8 @@ function BusinessCard({ business }) {
 return (
     <div>
         <h3>Name: {business?.name_full || 'Loading...'} </h3>
-            <h4> {business?.street_address} </h4> 
+            <h4> {business?.business_type}<br />
+            {business?.street_address} </h4> 
         <button onClick={()=> navigate(`/businesses/${business.id}/details`)}>See Details</button>
     </div>
 );
