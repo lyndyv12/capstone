@@ -57,10 +57,7 @@ const fetchUsers = async () => {
 
 const getUsersWithReviewSummary = async () => {
   const SQL = `
-    SELECT
-      u.id,
-      u.username,
-      COUNT(r.id) AS review_count
+    SELECT u.id, u.username,COUNT(r.id) AS review_count
     FROM users u
     LEFT JOIN reviews r ON u.id = r.user_id
     GROUP BY u.id;
