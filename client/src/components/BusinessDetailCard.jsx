@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-function BusinessDetail() {
-    const [businessDetails, setBusinessDetails] = useState({});  
-    const id = useParams().id; 
+function BusinessDetailCard() {
+    const [businessDetails, setBusinessDetails] = useState([]); 
+    const { id } = useParams()  
 
     useEffect(() => {  
         console.log("Fetched business ID:", id);
@@ -12,7 +12,7 @@ function BusinessDetail() {
             try {
                 const response = await fetch(`/api/businesses/${id}`);
                 const data = await response.json();
-                console.log("Fetched business data:", data);
+                console.log("Fetched business", data);
                 setBusinessDetails(data);
             } catch (error) {
                 console.error("Error fetching business:", error);
@@ -22,7 +22,7 @@ function BusinessDetail() {
         if (id) {
             getBusinessDetails(); 
         }
-    }, [id]); 
+    }, [id]);
 
 
  
@@ -36,4 +36,4 @@ function BusinessDetail() {
     );
 }
 
-export default BusinessDetail;
+export default BusinessDetailCard;

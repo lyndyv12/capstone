@@ -4,8 +4,7 @@ import Users from "./pages/Users";
 import Businesses from "./pages/Businesses";
 import CreateReview from "./pages/CreateReview";
 import Home from "./pages/Home";
-import BusinessDetail from "./components/BusinessDetail";
-import BusinessCard from "./components/BusinessCard";
+import BusinessDetail from "./pages/BusinessDetail";
 import UserReviews from "./components/UserReviews";
 
 function App() {
@@ -133,13 +132,6 @@ function App() {
         />
         <Route 
           path="/businesses/:id" 
-          element={
-            <BusinessCard />
-          } 
-        />
-
-        <Route 
-          path="/businesses/:id/details" 
           element={
             <BusinessDetail />
           } 
