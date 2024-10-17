@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ReviewForm = ({ authId, mode = 'create', businesses }) => { 
+  const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const user_id = authId
@@ -19,15 +21,23 @@ const ReviewForm = ({ authId, mode = 'create', businesses }) => {
 
     const json = await response.json();
     console.log(json);
+    return json; 
   };
 
   const submit = async (ev) => {
     ev.preventDefault();
     try {
-      await reviewFormAction({ title, description, user_id, business_id, rating }, mode);
+      const response = await reviewFormAction({ title, description, user_id, business_id, rating }, mode);
+      console.log("Response from server:", response);
+
+      if (response && response?.id) {
+        navigate(`/businesses/${business_id}`);
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
     } catch (ex) {
-      setError(ex.error);
-      console.log(error);
+        setError("An error occurred. Please try again.");
+        console.error("Error caught:", ex);
     }
   };
 
@@ -48,6 +58,8 @@ const ReviewForm = ({ authId, mode = 'create', businesses }) => {
       <input
         value={rating}
         placeholder='Rating (1-5)'
+        min="1"
+        max="5"
         onChange={(ev) => setRating(ev.target.value)}
       />
       <select
