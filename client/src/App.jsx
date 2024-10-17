@@ -6,6 +6,7 @@ import CreateReview from "./pages/CreateReview";
 import Home from "./pages/Home";
 import BusinessDetail from "./pages/BusinessDetail";
 import UserReviews from "./components/UserReviews";
+import Account from "./pages/Account";
 
 function App() {
   const [auth, setAuth] = useState({});
@@ -101,10 +102,11 @@ function App() {
         <Link to="/">Home</Link>
         <Link to="/businesses">Businesses ({businesses.length})</Link>
         <Link to="/users">Users ({users.length})</Link>
+        <Link to="/createReview">Create Review</Link>
         {auth.id ? (
-          <Link to="/createReview">Create Review</Link>
+        <Link to="/account">My Account</Link>
         ) : (
-          <Link to="/">Register/Login</Link>
+        <Link to="/">Register/Login</Link>
         )}
       </nav>
       {auth.id && <button onClick={logout}>Logout {auth.username}</button>}
@@ -146,12 +148,23 @@ function App() {
           element={<UserReviews users={users} />} 
         />
 
-        {!!auth.id && <Route path="/createReview" 
+        <Route path="/createReview" 
           element={<CreateReview 
             auth={auth}
+            authAction={authAction}
             businesses={businesses}
           />} 
-        />}
+        />
+
+        <Route path="/account" 
+          element= {<Account
+            auth={auth}
+          />} 
+        />      
+
+
+
+
       </Routes>
     </>
   );

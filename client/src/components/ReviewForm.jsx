@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 
-const ReviewForm = ({ mode = 'create', businesses }) => { 
+const ReviewForm = ({ authId, mode = 'create', businesses }) => { 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [user_id, setUser_Id] = useState('');
+  const user_id = authId
   const [business_id, setBusiness_Id] = useState('');
   const [rating, setRating] = useState('');
   const [error, setError] = useState('');
@@ -32,6 +32,7 @@ const ReviewForm = ({ mode = 'create', businesses }) => {
   };
 
   return (
+    <div>
     <form onSubmit={submit}>
       {!!error && <div className='error'>{error}</div>}
       <input
@@ -49,15 +50,11 @@ const ReviewForm = ({ mode = 'create', businesses }) => {
         placeholder='Rating (1-5)'
         onChange={(ev) => setRating(ev.target.value)}
       />
-      <input
-        value={user_id}
-        placeholder='User ID'
-        onChange={(ev) => setUser_Id(ev.target.value)}
-      />
       <select
         value={business_id}
         onChange={(ev) => setBusiness_Id(ev.target.value)}>
-            {businesses?.map((business) => <option key={business.id} value={business.name_full}> 
+            <option value="" disabled>Select a business</option>
+            {businesses?.map((business) => <option key={business.id} value={business.id}> 
                 {business.name_full}
             </option>)}
       </select>
@@ -66,6 +63,7 @@ const ReviewForm = ({ mode = 'create', businesses }) => {
 
       <button>{mode}</button>
     </form>
+    </div>
   );
 };
 

@@ -1,17 +1,18 @@
+import AuthForm from "../components/AuthForm/AuthForm";
 import ReviewForm from "../components/ReviewForm";
 
-const CreateReview = ({ auth, reviewFormAction, businesses })=> {
+const CreateReview = ({ auth, authAction, reviewFormAction, businesses })=> {
   return (
     <div>
-    <h1>Placeholder for Create Review</h1>
-    <p>
-      Display some interesting information about creating reviews.
-    </p>
     {auth.id ? (
       <>
-        <ReviewForm reviewFormAction={reviewFormAction} businesses={businesses} mode="create" />
+        <ReviewForm reviewFormAction={reviewFormAction} authId= {auth.id} businesses={businesses} mode="create" />
       </>
-    ) : null}
+    ) : <div>
+      You must first login to create a review 
+      <AuthForm authAction={authAction} mode="login"/>
+      </div>
+    }
   </div>
   );
 }

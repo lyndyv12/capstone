@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-function UserReviews() {
+function UserReviews( { UserId }) {
     const [userReviews, setUserReviews] = useState([]);  
-    const id = useParams().id; 
+    const id = UserId || useParams().id; 
 
 
     useEffect(() => {  
