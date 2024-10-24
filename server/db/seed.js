@@ -41,7 +41,8 @@ const createTables = async () => {
       description VARCHAR(1056) NOT NULL,
       user_id UUID REFERENCES users(id), 
       business_id UUID REFERENCES businesses(id), 
-      rating INT CHECK (rating >= 1 AND rating <= 5)
+      rating INT CHECK (rating >= 1 AND rating <= 5),
+      UNIQUE (user_id, business_id)
     );
   `;
   await client.query(SQL);
@@ -70,7 +71,7 @@ const init = async () => {
       city: "Versailles", 
       state: "Kentucky", 
       zip: "40383", 
-      business_type: "Fast Casual Restaurant",
+      business_type: "Restaurant",
       price_range: "$$",
     
       hasKidsSeating: true, 
@@ -114,7 +115,7 @@ const init = async () => {
       city: "Versailles", 
       state: "Kentucky", 
       zip: "40383", 
-      business_type: "Fast Casual Restaurant",
+      business_type: "Restaurant",
       price_range: "$",
     
       hasKidsSeating: true, 
@@ -141,7 +142,7 @@ const init = async () => {
       title: "don't bring kids here", 
       description: "they are great. We loved it.", 
       user_id: moe.id, 
-      business_id: biz1.id, 
+      business_id: biz2.id, 
       rating: 4
     }),
     createReview({ 

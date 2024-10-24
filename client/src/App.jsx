@@ -13,13 +13,14 @@ function App() {
   const [users, setUsers] = useState([]);
   const [businesses, setBusinesses] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [refreshReviews, setRefreshReviews] = useState(false);
 
   useEffect(() => {
     attemptLoginWithToken();
     getUsers();
     getBusinesses();
     getReviews();
-  }, []);
+  }, [refreshReviews]);
 
   const attemptLoginWithToken = async () => {
     const token = window.localStorage.getItem("token");
@@ -153,8 +154,17 @@ function App() {
             auth={auth}
             authAction={authAction}
             businesses={businesses}
+            setRefreshReviews={setRefreshReviews}
           />} 
         />
+        <Route path="/createReview/:businessId" 
+          element={<CreateReview
+            auth={auth}
+            authAction={authAction}
+            businesses={businesses}
+            setRefreshReviews={setRefreshReviews}
+          />}
+        /> 
 
         <Route path="/account" 
           element= {<Account

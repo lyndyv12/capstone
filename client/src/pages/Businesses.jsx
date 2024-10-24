@@ -1,7 +1,15 @@
 import BusinessForm from "../components/BusinessForm";
 import BusinessesContainer from "../components/BusinessesContainer";
+import { useState } from "react";
+import Modal from "../components/Modal";
 
 const Businesses = ({ auth, businesses, businessFormAction })=> {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOpenModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
+
   return (
     <div>
       <h1>Placeholder for Businesses { businesses.length }</h1>
@@ -9,12 +17,6 @@ const Businesses = ({ auth, businesses, businessFormAction })=> {
       Businesses</p>
       <div>
         <BusinessesContainer businesses={businesses}/>
-      </div>
-      <div>{auth.id ? (
-        <>
-          <BusinessForm businessFormAction={businessFormAction} mode="create" />
-        </>
-      ) : null}
       </div>
     </div>
   );

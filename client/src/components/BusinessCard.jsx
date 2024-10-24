@@ -14,6 +14,7 @@ return (
             Rating:{business?.review_avgrating}<br />
             {business?.street_address} </h4> 
         <button onClick={()=> navigate(`/businesses/${business.id}`)}>See Details</button>
+        <button onClick={() => navigate(`/createReview/${business.id}`)}>Create Review</button>
     </div>
 );
 }

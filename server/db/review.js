@@ -2,9 +2,18 @@ const { client } = require("./client");
 const uuid = require("uuid");
 
 const createReview = async ({ title, description, user_id, business_id, rating }) => {
-  if (!rating || !description || !business_id) {
-    const error = Error("rating, description, business_id is required!");
+  if (!title || !rating || !description || !business_id || !user_id) {
+    const error = Error(" title, description, user_id, business_id, rating are required!");
     error.status = 401;
+    throw error;
+  }
+  const checkForReview = `
+  SELECT * FROM reviews WHERE user_id = $1 AND business_id = $2`;
+  const checkResponse = await client.query(checkForReview, [user_id, business_id]);
+
+  if (checkResponse.rows.length > 0) {
+    const error = Error("You can only submit one review per business.");
+    error.status = 400;
     throw error;
   }
   const SQL = `
@@ -23,9 +32,13 @@ const fetchReviews = async () => {
 };
 
 const getUsersReviews = async(user_id) => {
-  try{
-    const SQL = 'SELECT * FROM reviews JOIN users ON reviews.user_id = users.id AND user_id=$1';
-
+  try {
+    const SQL = `
+      SELECT reviews.id AS review_id, reviews.title, reviews.description, reviews.rating
+      FROM reviews
+      JOIN users ON reviews.user_id = users.id
+      WHERE users.id = $1;
+    `;
 
     const { rows } = await client.query(SQL, [user_id]);
     if(!rows) 
@@ -53,4 +66,53 @@ const getBusinessReviews = async (business_id) => {
   }
 };
 
-module.exports = { createReview, fetchReviews, getUsersReviews, getBusinessReviews };
+
+const editReview = async ({ review_id, description, rating }) => {
+  if (!review_id || !description || !rating) {
+    const error = Error("Review ID, description, and rating are required!");
+    error.status = 401;
+    throw error;
+  }
+
+  const SQL = `
+    UPDATE reviews
+    SET description = $1, rating = $2
+    WHERE id = $3
+    RETURNING *;
+  `;
+  const { rows } = await client.query(SQL, [description, rating, review_id]);
+  
+  if (rows.length === 0) {
+    const error = Error("Review not found.");
+    error.status = 404;
+    throw error;
+  }
+  
+  return rows[0];  
+};
+
+const deleteReview = async (review_id) => {
+  if (!review_id) {
+    const error = Error("Review ID is required!");
+    error.status = 401;
+    throw error;
+  }
+
+  const SQL = `
+    DELETE FROM reviews
+    WHERE id = $1
+    RETURNING *;
+  `;
+  const { rows } = await client.query(SQL, [review_id]);
+  
+  if (rows.length === 0) {
+    const error = Error("Review not found.");
+    error.status = 404;
+    throw error;
+  }
+  
+  return rows[0];  
+};
+
+
+module.exports = { createReview, fetchReviews, getUsersReviews, getBusinessReviews, editReview, deleteReview };
