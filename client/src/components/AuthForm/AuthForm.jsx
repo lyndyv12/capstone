@@ -8,7 +8,11 @@ const AuthForm = ({ authAction, mode='login' })=> {
   const submit = async(ev) => {
     ev.preventDefault();
     try {
-      await authAction({ username, password }, mode);
+      const payload = { username, password };
+      if (mode === 'login' || mode === 'register') {
+        payload.isAdmin = false; 
+      }
+      await authAction(payload, mode);
     }
     catch(ex){
       setError(ex.error);

@@ -1,7 +1,6 @@
 import UserReviews from "../components/UserReviews";
 
 const Account = ({ auth }) => {
-    console.log({auth})
   return (
     <div>
       {auth.username}

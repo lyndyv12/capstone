@@ -17,7 +17,6 @@ function BusinessesContainer({ businesses }) {
     { value: "Bar", label: "Bar" },
     { value: "store", label: "Store" },
     { value: "service", label: "Service" },
-    // Add new business types here as needed
   ];
 
   const handleSearchChange = (e) => {

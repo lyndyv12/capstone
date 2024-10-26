@@ -8,19 +8,21 @@ if (JWT === "shhh") {
   console.log("If deployed, set process.env.JWT to something other than shhh");
 }
 
-const createUser = async ({ username, password }) => {
+const createUser = async ({ username, password, isAdmin }) => {
   if (!username || !password) {
     const error = Error("username and password required!");
     error.status = 401;
     throw error;
   }
   const SQL = `
-    INSERT INTO users(id, username, password) VALUES($1, $2, $3) RETURNING *
+    INSERT INTO users(id, username, password, isAdmin) VALUES($1, $2, $3, $4) RETURNING *
   `;
+  
   const response = await client.query(SQL, [
     uuid.v4(),
     username,
     await bcrypt.hash(password, 5),
+    isAdmin,
   ]);
   return response.rows[0];
 };
@@ -36,7 +38,7 @@ const findUserWithToken = async (token) => {
     throw error;
   }
   const SQL = `
-    SELECT id, username FROM users WHERE id=$1;
+    SELECT id, username, isAdmin FROM users WHERE id=$1;
   `;
   const response = await client.query(SQL, [id]);
   if (!response.rows.length) {
@@ -68,7 +70,7 @@ const getUsersWithReviewSummary = async () => {
 
 const authenticate = async ({ username, password }) => {
   const SQL = `
-    SELECT id, username, password FROM users WHERE username=$1;
+    SELECT * FROM users WHERE username=$1;
   `;
   const response = await client.query(SQL, [username]);
   if (

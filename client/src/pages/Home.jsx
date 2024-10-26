@@ -23,7 +23,7 @@ const Home = ({ auth, authAction, logout, businesses, users, reviews }) => {
 
       
 
-      <div style={{ marginTop: '20px' }}>
+      <div>
         <h2>Login or Register</h2>
         <AuthForm authAction={authAction} mode="login" />
         <AuthForm authAction={authAction} mode="register" />
@@ -31,11 +31,11 @@ const Home = ({ auth, authAction, logout, businesses, users, reviews }) => {
 
       <div>
         <h2>Quick Links</h2>
-        <Link to="/businesses" style={{ margin: '10px', textDecoration: 'none', color: 'blue' }}>View Businesses</Link>
-        <Link to="/createReview" style={{ margin: '10px', textDecoration: 'none', color: 'blue' }}>Write a Review</Link>
-        <Link to="/users" style={{ margin: '10px', textDecoration: 'none', color: 'blue' }}>View Users</Link>
+        <Link to="/businesses">View Businesses</Link>
+        <Link to="/createReview">Write a Review</Link>
+        <Link to="/users">View Users</Link>
       </div>
-      
+
     </div>
 
   )}

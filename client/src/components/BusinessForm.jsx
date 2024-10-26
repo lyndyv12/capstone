@@ -47,6 +47,13 @@ const BusinessForm = ({ mode = 'create' }) => {
     }
   };
 
+  const businessTypes = [
+    { value: "restaurant", label: "Restaurant" },
+    { value: "Bar", label: "Bar" },
+    { value: "store", label: "Store" },
+    { value: "service", label: "Service" }
+  ]
+
   return (
     <form onSubmit={submit}>
       { !!error && <div className='error'>{error}</div> }
@@ -75,11 +82,15 @@ const BusinessForm = ({ mode = 'create' }) => {
         placeholder='ZIP Code' 
         onChange={ev => setZip(ev.target.value)} 
       />
-      <input 
-        value={business_type} 
-        placeholder='Business Type' 
-        onChange={ev => setBusiness_Type(ev.target.value)} 
-      />
+      <select value={business_type}  
+        onChange={ev => setBusiness_Type(ev.target.value)} >
+          {businessTypes.map((type) => (
+            <option key={type.value} value={type.value}>
+              {type.label}
+            </option>
+          ))}
+        </select>
+      
       <select value={price_range} onChange={ev => setPrice_Range(ev.target.value)}>
         <option value="$">$</option>
         <option value="$$">$$</option>

@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import BusinessDetail from "./pages/BusinessDetail";
 import UserReviews from "./components/UserReviews";
 import Account from "./pages/Account";
+import Admin from "./pages/Admin";
 
 function App() {
   const [auth, setAuth] = useState({});
@@ -33,6 +34,7 @@ function App() {
       const json = await response.json();
       if (response.ok) {
         setAuth(json);
+        console.log(auth)
       } else {
         window.localStorage.removeItem("token");
       }
@@ -96,6 +98,13 @@ function App() {
     setAuth({});
   };
 
+  console.log({auth})
+  console.log({auth})
+  console.log({auth})
+  console.log({auth})
+  console.log({auth})
+  console.log({auth})
+
   return (
     <>
       <h1>Acme Business Reviews</h1>
@@ -108,6 +117,11 @@ function App() {
         <Link to="/account">My Account</Link>
         ) : (
         <Link to="/">Register/Login</Link>
+        )}
+        {auth.isadmin ? (
+        <Link to="/admin">Admin</Link>
+        ) : (
+        <Link to="/">Not Admin</Link>
         )}
       </nav>
       {auth.id && <button onClick={logout}>Logout {auth.username}</button>}
@@ -124,6 +138,11 @@ function App() {
             />
           }
         />
+        <Route path="/admin" 
+          element={<Admin auth={auth} />} 
+        />
+
+
         <Route
           path="/businesses"
           element={
