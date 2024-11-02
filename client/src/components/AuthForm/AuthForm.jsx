@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { TextField, Button, Box, Typography, Link } from '@mui/material';
 
-const AuthForm = ({ authAction, mode = 'login' }) => {
+const AuthForm = ({ authAction, mode = 'login', onSuccess }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -14,6 +14,10 @@ const AuthForm = ({ authAction, mode = 'login' }) => {
         payload.isAdmin = false; 
       }
       await authAction(payload, mode);
+
+      if (onSuccess) {
+        onSuccess();
+      }
     } catch (ex) {
       setError(ex.error);
     }
@@ -46,7 +50,7 @@ const AuthForm = ({ authAction, mode = 'login' }) => {
         fullWidth
         sx={{ mt: 2 }}
       >
-        {mode.charAt(0).toUpperCase() + mode.slice(1)} {/* Will show "Login" or "Register" */}
+        {mode.charAt(0).toUpperCase() + mode.slice(1)} 
       </Button>
 
       {mode === 'login' && (

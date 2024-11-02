@@ -30,6 +30,13 @@ function BusinessDetailCard() {
             {businessDetails ? (
                 <Card variant="outlined" style={{ marginTop: '16px' }}>
                     <CardContent>
+                        {businessDetails.image_url && (
+                            <img 
+                                src={businessDetails.image_url} 
+                                alt={businessDetails.name_full} 
+                                style={{ width: '100%', height: 'auto', borderRadius: '8px' }} 
+                            />
+                        )}
                         <Typography variant="h4" component="div">
                             {businessDetails.name_full}
                         </Typography>
@@ -48,4 +55,4 @@ function BusinessDetailCard() {
     );
 }
 
-export default BusinessDetailCard;
+export default BusinessDetailCard

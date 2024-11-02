@@ -27,6 +27,7 @@ const createTables = async () => {
       zip VARCHAR(64) NOT NULL,
       business_type VARCHAR(64) NOT NULL,
       price_range VARCHAR(5) CHECK (price_range IN ('$','$$','$$$','$$$$')),
+      image_url VARCHAR(1024),
   
       -- Boolean flags for major feature categories
       hasKidsSeating BOOLEAN DEFAULT false,
@@ -65,7 +66,7 @@ const init = async () => {
 
   console.log(await fetchUsers());
 
-  const [biz1, biz2, biz3, biz4] = await Promise.all([
+  const [biz1, biz2, biz3, biz4, biz5, biz6, biz7] = await Promise.all([
     createBusiness({ 
       name_full: "Sunset Bistro", 
       street_address: "5019 Venetian Way", 
@@ -74,6 +75,7 @@ const init = async () => {
       zip: "40383", 
       business_type: "Restaurant",
       price_range: "$$",
+      image_url: "https://www.marketplace.virginia.gov/sites/default/files/2023-10/AdobeStock_415962919.jpeg",
     
       hasKidsSeating: true, 
       hasChangingStation: true,
@@ -93,6 +95,7 @@ const init = async () => {
       price_range: "$",
       hasKidsSeating: false,
       hasChangingStation: true,
+      image_url: "https://thumbor.forbes.com/thumbor/fit-in/1290x/https://www.forbes.com/advisor/wp-content/uploads/2022/10/Business_Ideas_For_Women_-_article_image.jpg",
       features: {
         changingStationLocations: ['Womens Restroom']
       }
@@ -105,6 +108,7 @@ const init = async () => {
       zip: "40383", 
       business_type: "Bar",
       price_range: "$$$$",
+      image_url: "https://media.licdn.com/dms/image/D4E12AQGjhxH5IKNAJw/article-cover_image-shrink_720_1280/0/1677123037147?e=2147483647&v=beta&t=R0I7ziUjyIpeCALJka44wOAj9rG9mP_VA45xD7ItJH8",
     
       hasKidsSeating: false, 
       hasChangingStation: false,
@@ -118,6 +122,7 @@ const init = async () => {
       zip: "40383", 
       business_type: "Restaurant",
       price_range: "$",
+      image_url: "https://www.bankrate.com/2022/09/23150659/Small-businesses-by-the-numbers.jpg?auto=webp&optimize=high&crop=16:9",
     
       hasKidsSeating: true, 
       hasChangingStation: true,
@@ -126,6 +131,48 @@ const init = async () => {
         kidsSeatingOptions: ['High Chairs'], 
         changingStationLocations: ['Womens Restroom']
       }
+    }),
+    createBusiness({ 
+      name_full: "Tuck's FastFood", 
+      street_address: "5019 Venetian Way", 
+      city: "Versailles", 
+      state: "Kentucky", 
+      zip: "40383", 
+      business_type: "Restaurant",
+      price_range: "$",
+      image_url: "https://www.uschamber.com/assets/images/GettyImages-1003743930-Small-Business-AI-Tools.jpg",
+    
+      hasKidsSeating: false, 
+      hasChangingStation: false,
+      
+    }),
+    createBusiness({ 
+      name_full: "Zach's Beach Bar", 
+      street_address: "5019 Venetian Way", 
+      city: "Versailles", 
+      state: "Kentucky", 
+      zip: "40383", 
+      business_type: "Bar",
+      price_range: "$$$$",
+      image_url: "https://www.answerfinancial.com/insurance-center/wp-content/uploads/2021/04/commercial_insurance_for_small_business_owners.jpg",
+    
+      hasKidsSeating: false, 
+      hasChangingStation: false,
+      
+    }),
+    createBusiness({ 
+      name_full: "Last but not least", 
+      street_address: "5019 Venetian Way", 
+      city: "Versailles", 
+      state: "Kentucky", 
+      zip: "40383", 
+      business_type: "Bar",
+      price_range: "$$$$",
+      image_url: "https://media.smallbiztrends.com/2021/11/how-to-support-small-business-.png",
+    
+      hasKidsSeating: false, 
+      hasChangingStation: false,
+      
     }),
   ]);
 

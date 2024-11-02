@@ -57,6 +57,9 @@ function App() {
     if (response.ok) {
       window.localStorage.setItem("token", json.token);
       attemptLoginWithToken();
+      if (mode === 'register') {
+        getUsers(); 
+      }
     } else {
       throw json;
     }

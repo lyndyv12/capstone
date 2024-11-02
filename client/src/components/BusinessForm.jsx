@@ -5,11 +5,12 @@ const BusinessForm = ({ authId, onClose }) => {
   const [name, setName] = useState('');
   const [businessType, setBusinessType] = useState('');
   const [address, setAddress] = useState('');
+  const [imageUrl, setImageUrl] = useState(''); // New state for image URL
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name || !businessType || !address) {
+    if (!name || !businessType || !address || !imageUrl) { // Check for image URL
       setError("Please fill in all fields.");
       return;
     }
@@ -17,7 +18,7 @@ const BusinessForm = ({ authId, onClose }) => {
     try {
       const response = await fetch('/api/businesses/create', {
         method: 'POST',
-        body: JSON.stringify({ name, businessType, address, user_id: authId }),
+        body: JSON.stringify({ name, businessType, address, imageUrl, user_id: authId }), // Include imageUrl in the request
         headers: {
           'Content-Type': 'application/json',
         },
@@ -58,6 +59,14 @@ const BusinessForm = ({ authId, onClose }) => {
         variant="outlined" 
         value={address} 
         onChange={(e) => setAddress(e.target.value)} 
+        fullWidth 
+        margin="normal" 
+      />
+      <TextField 
+        label="Image URL" // New input for image URL
+        variant="outlined" 
+        value={imageUrl} 
+        onChange={(e) => setImageUrl(e.target.value)} 
         fullWidth 
         margin="normal" 
       />

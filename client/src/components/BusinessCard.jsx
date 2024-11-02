@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardActions, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import './BusinessCard.css'; // Import your CSS file
 
 function BusinessCard({ business, auth }) {
   const navigate = useNavigate();
@@ -8,6 +9,13 @@ function BusinessCard({ business, auth }) {
   return (
     <Card>
       <CardContent>
+        {business?.image_url && (
+          <img 
+            src={business.image_url} 
+            alt={business.name_full} 
+            className="business-image" 
+          />
+        )}
         <Typography variant="h5">
           Name: {business?.name_full || "Loading..."}
         </Typography>

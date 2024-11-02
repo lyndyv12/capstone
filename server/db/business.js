@@ -2,7 +2,7 @@ const { client } = require("./client");
 const uuid = require("uuid");
 
 const createBusiness = async ({ 
-  name_full, street_address, city, state, zip, business_type, price_range, hasKidsSeating, hasChangingStation, features 
+  name_full, street_address, city, state, zip, business_type, price_range, hasKidsSeating, hasChangingStation, image_url, features 
 }) => {
   if (!name_full) {
     const error = Error("full name is required!");
@@ -10,9 +10,23 @@ const createBusiness = async ({
     throw error;
   }
 
+  console.log("Creating business with the following data:", {
+    name_full,
+    street_address,
+    city,
+    state,
+    zip,
+    business_type,
+    price_range,
+    hasKidsSeating,
+    hasChangingStation,
+    image_url,
+    features
+  });
+
   const SQL = `
-    INSERT INTO businesses(id, name_full, street_address, city, state, zip, business_type, price_range, hasKidsSeating, hasChangingStation, features) 
-    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) 
+    INSERT INTO businesses(id, name_full, street_address, city, state, zip, business_type, price_range, hasKidsSeating, hasChangingStation, image_url, features) 
+    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) 
     RETURNING *;
   `;
 
@@ -25,9 +39,10 @@ const createBusiness = async ({
     zip,
     business_type,
     price_range,
-    hasKidsSeating,
-    hasChangingStation,
-    features
+    hasKidsSeating || null,
+    hasChangingStation || null,
+    image_url || null,
+    features ? JSON.stringify(features) : null
   ]);
 
   return response.rows[0];
