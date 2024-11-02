@@ -6,11 +6,11 @@ function BusinessesContainer({ businesses, auth }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("all");
 
-  const filteredBusinesses = businesses.filter((business) => {
+  const filteredBusinesses = Array.isArray(businesses) ? businesses.filter((business) => {
     const matchesSearch = business.name_full.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter = filterType === "all" || business.business_type === filterType;
     return matchesSearch && matchesFilter;
-  });
+  }) : []; 
 
   const businessTypes = [
     { value: "all", label: "All Types" },

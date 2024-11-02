@@ -117,6 +117,8 @@ function App() {
     }
   };
 
+  console.log(auth)
+
   return (
     <div>
       <AppBar position="static">
@@ -133,7 +135,7 @@ function App() {
           <Link to="/users">
             <Button color="inherit">Users</Button>
           </Link>
-          {auth.isAdmin && (
+          {auth.isadmin && (
             <Link to="/admin">
               <Button color="inherit">Admin</Button>
             </Link>
@@ -161,7 +163,7 @@ function App() {
         <Route path="/users" element={<Users users={users} />} />
         <Route path="/users/:id" element={<UserReviews users={users} />} />
         <Route path="/account" element={<Account auth={auth} />} />
-        <Route path="/admin" element={<Admin auth={auth} />} />
+        <Route path="/admin" element={<Admin auth={auth} users={users} businesses={businesses}/>} />
         <Route path="/login" element={<Login authAction={authAction} />} /> 
         <Route path="/register" element={<Register authAction={authAction} />} />
       </Routes>
