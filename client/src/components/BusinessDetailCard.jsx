@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Card, CardContent, Typography, CircularProgress, Container } from '@mui/material';
 
 function BusinessDetailCard() {
-    const [businessDetails, setBusinessDetails] = useState([]); 
-    const { id } = useParams()  
+    const [businessDetails, setBusinessDetails] = useState(null); // Initialize as null to handle loading state
+    const { id } = useParams();  
 
     useEffect(() => {  
         console.log("Fetched business ID:", id);
@@ -24,15 +25,26 @@ function BusinessDetailCard() {
         }
     }, [id]);
 
-
- 
-
     return (
-      <div>
-        <h3>Business Name: {businessDetails?.name_full || 'Loading...'}</h3>
-        <p>Description: {businessDetails?.business_type}</p>
-        <p>Address: {businessDetails?.street_address}</p>
-      </div>
+        <Container>
+            {businessDetails ? (
+                <Card variant="outlined" style={{ marginTop: '16px' }}>
+                    <CardContent>
+                        <Typography variant="h4" component="div">
+                            {businessDetails.name_full}
+                        </Typography>
+                        <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+                            Business Type: {businessDetails.business_type}
+                        </Typography>
+                        <Typography variant="body1">
+                            Address: {businessDetails.street_address}
+                        </Typography>
+                    </CardContent>
+                </Card>
+            ) : (
+                <CircularProgress style={{ marginTop: '16px' }} />
+            )}
+        </Container>
     );
 }
 

@@ -1,17 +1,26 @@
 import React from 'react';
+import { Dialog, DialogTitle, DialogContent, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import './Modal.css';
 
 function Modal({ show, onClose, children }) {
-  if (!show) {
-    return null;
-  }
-
   return (
-    <div className="modal-backdrop">
-      <div className="modal">
-        <button onClick={onClose} className="close-btn">X</button>
+    <Dialog open={show} onClose={onClose} maxWidth="sm" fullWidth>
+      <DialogTitle>
+        <IconButton
+          edge="end"
+          color="inherit"
+          onClick={onClose}
+          aria-label="close"
+          className="close-btn"
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent dividers className="modal-content">
         {children}
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 

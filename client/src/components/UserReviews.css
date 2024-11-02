@@ -1,0 +1,21 @@
+.review-card {
+    margin: 16px 0;
+    padding: 16px;
+  }
+  
+  .review-title {
+    font-weight: bold;
+  }
+  
+  .review-description, .review-rating {
+    margin-bottom: 8px;
+  }
+  
+  .dialog-content {
+    padding-bottom: 16px;
+  }
+  
+  .modal-button {
+    margin-top: 8px;
+  }
+  

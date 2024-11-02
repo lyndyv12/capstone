@@ -59,7 +59,7 @@ const fetchUsers = async () => {
 
 const getUsersWithReviewSummary = async () => {
   const SQL = `
-    SELECT u.id, u.username,COUNT(r.id) AS review_count
+    SELECT u.id, u.username, u.isAdmin, COUNT(r.id) AS review_count
     FROM users u
     LEFT JOIN reviews r ON u.id = r.user_id
     GROUP BY u.id;
@@ -82,6 +82,7 @@ const authenticate = async ({ username, password }) => {
     throw error;
   }
   const token = await jwt.sign({ id: response.rows[0].id }, JWT);
+
   return { token };
 };
 

@@ -1,0 +1,17 @@
+.form-container {
+    margin: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 0.9rem;
+  }
+  
+  .submit-button {
+    align-self: flex-start;
+    margin-top: 16px;
+  }
+  

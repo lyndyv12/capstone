@@ -1,20 +1,21 @@
-import React, { useState } from 'react';
-import BusinessCard from './BusinessCard';
+import React, { useState } from "react";
+import BusinessCard from "./BusinessCard";
+import { TextField, Select, MenuItem, InputLabel, FormControl, Grid, Typography } from "@mui/material";
 
-function BusinessesContainer({ businesses }) {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterType, setFilterType] = useState('all');
+function BusinessesContainer({ businesses, auth }) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterType, setFilterType] = useState("all");
 
   const filteredBusinesses = businesses.filter((business) => {
     const matchesSearch = business.name_full.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = filterType === 'all' || business.business_type === filterType;
+    const matchesFilter = filterType === "all" || business.business_type === filterType;
     return matchesSearch && matchesFilter;
   });
 
   const businessTypes = [
     { value: "all", label: "All Types" },
     { value: "restaurant", label: "Restaurant" },
-    { value: "Bar", label: "Bar" },
+    { value: "bar", label: "Bar" },
     { value: "store", label: "Store" },
     { value: "service", label: "Service" },
   ];
@@ -29,30 +30,40 @@ function BusinessesContainer({ businesses }) {
 
   return (
     <div>
-      <h2>Businesses</h2>
-      <div>
-        <input
-          type="text"
-          placeholder="Search by business name..."
+      <Typography variant="h6" gutterBottom>
+        Businesses
+      </Typography>
+      <div style={{ marginBottom: "16px" }}>
+        <TextField
+          label="Search by business name..."
+          variant="outlined"
           value={searchTerm}
           onChange={handleSearchChange}
+          style={{ marginRight: "16px" }}
         />
-        <select value={filterType} onChange={handleFilterChange}>
-          {businessTypes.map((type) => (
-            <option key={type.value} value={type.value}>
-              {type.label}
-            </option>
-          ))}
-        </select>
+        <FormControl variant="outlined" style={{ minWidth: "120px" }}>
+          <InputLabel>Business Type</InputLabel>
+          <Select value={filterType} onChange={handleFilterChange} label="Business Type">
+            {businessTypes.map((type) => (
+              <MenuItem key={type.value} value={type.value}>
+                {type.label}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </div>
 
-      {filteredBusinesses.length > 0 ? (
-        filteredBusinesses.map((business) => (
-          <BusinessCard key={business.id} business={business} />
-        ))
-      ) : (
-        <p>No businesses found.</p>
-      )}
+      <Grid container spacing={2}>
+        {filteredBusinesses.length > 0 ? (
+          filteredBusinesses.map((business) => (
+            <Grid item xs={12} sm={6} md={4} key={business.id}>
+              <BusinessCard business={business} auth={auth} />
+            </Grid>
+          ))
+        ) : (
+          <Typography>No businesses found.</Typography>
+        )}
+      </Grid>
     </div>
   );
 }

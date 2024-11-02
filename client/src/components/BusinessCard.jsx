@@ -1,22 +1,33 @@
-import { useEffect } from 'react';
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { Card, CardContent, CardActions, Typography, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-function BusinessCard({ business }) {
+function BusinessCard({ business, auth }) {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
-
-return (
-    <div>
-        <h3>Name: {business?.name_full || 'Loading...'} </h3>
-            <h4> {business?.business_type}<br />
-            Review Count:{business?.review_count}<br />
-            Rating:{business?.review_avgrating}<br />
-            {business?.street_address} </h4> 
-        <button onClick={()=> navigate(`/businesses/${business.id}`)}>See Details</button>
-        <button onClick={() => navigate(`/createReview/${business.id}`)}>Create Review</button>
-    </div>
-);
+  return (
+    <Card>
+      <CardContent>
+        <Typography variant="h5">
+          Name: {business?.name_full || "Loading..."}
+        </Typography>
+        <Typography color="textSecondary">
+          Type: {business?.business_type}<br />
+          Review Count: {business?.review_count}<br />
+          Rating: {business?.review_avgrating}<br />
+          Address: {business?.street_address}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button size="small" onClick={() => navigate(`/businesses/${business.id}`)}>
+          See Details
+        </Button>
+        <Button size="small" onClick={() => navigate(`/createReview/${business.id}`)}>
+          Create Review
+        </Button>
+      </CardActions>
+    </Card>
+  );
 }
-  
+
 export default BusinessCard;

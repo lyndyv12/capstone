@@ -8,6 +8,10 @@ import BusinessDetail from "./pages/BusinessDetail";
 import UserReviews from "./components/UserReviews";
 import Account from "./pages/Account";
 import Admin from "./pages/Admin";
+import { AppBar, Toolbar, Button, Typography } from '@mui/material';
+import Login from './components/Login';
+import Register from './components/Register';
+import UserCard from "./components/UserCard";
 
 function App() {
   const [auth, setAuth] = useState({});
@@ -34,7 +38,6 @@ function App() {
       const json = await response.json();
       if (response.ok) {
         setAuth(json);
-        console.log(auth)
       } else {
         window.localStorage.removeItem("token");
       }
@@ -60,7 +63,6 @@ function App() {
   };
 
   const getUsers = async () => {
-    console.log("getUsers function called"); 
     try {
       const response = await fetch("/api/users/UsersWithReviewSummary");
       const data = await response.json();
@@ -71,7 +73,6 @@ function App() {
   };
 
   const getBusinesses = async () => {
-    console.log("getBusinesses function called"); 
     try {
       const response = await fetch("/api/businesses");
       const data = await response.json();
@@ -82,7 +83,6 @@ function App() {
   };
 
   const getReviews = async () => {
-    console.log("getReviews function called"); 
     try {
       const response = await fetch("/api/reviews");
       const data = await response.json();
@@ -92,110 +92,77 @@ function App() {
     }
   };
 
+  const reviewFormAction = async (reviewData) => {
+    try {
+      const response = await fetch("/api/reviews", {
+        method: "POST",
+        body: JSON.stringify(reviewData),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": window.localStorage.getItem("token"),
+        },
+      });
 
-  const logout = () => {
-    window.localStorage.removeItem("token");
-    setAuth({});
+      if (!response.ok) {
+        const json = await response.json();
+        throw json; // Handle error
+      }
+
+      setRefreshReviews(true); // Trigger a refresh of reviews
+    } catch (error) {
+      console.error("Error submitting review:", error);
+    }
   };
 
-  console.log({auth})
-  console.log({auth})
-  console.log({auth})
-  console.log({auth})
-  console.log({auth})
-  console.log({auth})
-
   return (
-    <>
-      <h1>Acme Business Reviews</h1>
-      <nav>
-        <Link to="/">Home</Link>
-        <Link to="/businesses">Businesses ({businesses.length})</Link>
-        <Link to="/users">Users ({users.length})</Link>
-        <Link to="/createReview">Create Review</Link>
-        {auth.id ? (
-        <Link to="/account">My Account</Link>
-        ) : (
-        <Link to="/">Register/Login</Link>
-        )}
-        {auth.isadmin ? (
-        <Link to="/admin">Admin</Link>
-        ) : (
-        <Link to="/">Not Admin</Link>
-        )}
-      </nav>
-      {auth.id && <button onClick={logout}>Logout {auth.username}</button>}
+    <div>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            Business Review App
+          </Typography>
+          <Link to="/">
+            <Button color="inherit">Home</Button>
+          </Link>
+          <Link to="/businesses">
+            <Button color="inherit">Businesses</Button>
+          </Link>
+          <Link to="/users">
+            <Button color="inherit">Users</Button>
+          </Link>
+          {auth.isAdmin && (
+            <Link to="/admin">
+              <Button color="inherit">Admin</Button>
+            </Link>
+          )}
+          {auth.id ? (
+            <Button onClick={() => {
+              window.localStorage.removeItem("token");
+              setAuth({});}} 
+              color="inherit">
+              Logout
+            </Button>
+          ) : (
+            <Link to="/login">
+              <Button color="inherit">Login</Button>
+            </Link>
+          )}
+        </Toolbar>
+      </AppBar>
+
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Home
-              authAction={authAction}
-              auth={auth}
-              businesses={businesses}
-              users={users}
-              reviews={reviews}
-            />
-          }
-        />
-        <Route path="/admin" 
-          element={<Admin auth={auth} />} 
-        />
-
-
-        <Route
-          path="/businesses"
-          element={
-            <Businesses 
-              businesses={businesses}
-              auth={auth} 
-            />
-          }
-        />
-        <Route 
-          path="/businesses/:id" 
-          element={
-            <BusinessDetail />
-          } 
-        />
-
-
-        <Route path="/users" 
-          element={<Users users={users} />} 
-        />
-
-        <Route path="/users/:id" 
-          element={<UserReviews users={users} />} 
-        />
-
-        <Route path="/createReview" 
-          element={<CreateReview 
-            auth={auth}
-            authAction={authAction}
-            businesses={businesses}
-            setRefreshReviews={setRefreshReviews}
-          />} 
-        />
-        <Route path="/createReview/:businessId" 
-          element={<CreateReview
-            auth={auth}
-            authAction={authAction}
-            businesses={businesses}
-            setRefreshReviews={setRefreshReviews}
-          />}
-        /> 
-
-        <Route path="/account" 
-          element= {<Account
-            auth={auth}
-          />} 
-        />      
-
-
-
-
+        <Route path="/" element={<Home auth={auth} authAction={authAction} businesses={businesses} users={users} reviews={reviews} />} />
+        <Route path="/businesses" element={<Businesses businesses={businesses} />} />
+        <Route path="/createReview/:businessId" element={<CreateReview auth={auth} authAction={authAction} reviewFormAction={reviewFormAction} setRefreshReviews={setRefreshReviews} businesses={businesses} />} />
+        <Route path="/businesses/:id" element={<BusinessDetail />} />
+        <Route path="/users" element={<Users users={users} />} />
+        <Route path="/users/:id" element={<UserReviews users={users} />} />
+        <Route path="/account" element={<Account auth={auth} />} />
+        <Route path="/admin" element={<Admin auth={auth} />} />
+        <Route path="/login" element={<Login authAction={authAction} />} /> 
+        <Route path="/register" element={<Register authAction={authAction} />} />
       </Routes>
-    </>
+    </div>
   );
 }
 

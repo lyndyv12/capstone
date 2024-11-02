@@ -1,15 +1,16 @@
+import React from 'react';
 import UsersContainer from "../components/UsersContainer";
+import { Container } from '@mui/material'; // MUI Container component
+import './Users.css';
 
-const Users = ({ users })=> {
+const Users = ({ users }) => {
   return (
-    <div>
-      <h1>Placeholder for Users { users.length }</h1>
-      <div>
-        <UsersContainer users={users}/>
-      </div>
-    </div>
+    <Container className="users-container">
+      <h1 className="users-title">Users ({users.length})</h1>
+      <UsersContainer users={users} />
+    </Container>
   );
-}
-
+};
 
 export default Users;
+

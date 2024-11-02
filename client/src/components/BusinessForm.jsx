@@ -1,137 +1,69 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { TextField, Button, Typography } from '@mui/material';
 
-const BusinessForm = ({ mode = 'create' }) => {
-  const [name_full, setName_Full] = useState('');
-  const [street_address, setStreet_Address] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
-  const [zip, setZip] = useState('');
-  const [business_type, setBusiness_Type] = useState('');
-  const [price_range, setPrice_Range] = useState('$');
-  const [hasKidsSeating, setHasKidsSeating] = useState(false);
-  const [hasChangingStation, setHasChangingStation] = useState(false);
-  const [features, setFeatures] = useState({ kidsSeatingOptions: [], changingStationLocations: [] });
+const BusinessForm = ({ authId, onClose }) => {
+  const [name, setName] = useState('');
+  const [businessType, setBusinessType] = useState('');
+  const [address, setAddress] = useState('');
   const [error, setError] = useState('');
 
-  const businessFormAction = async (details, mode) => {
-    const response = await fetch(`/api/businesses/${mode}`, {
-      method: "POST",
-      body: JSON.stringify(details),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!name || !businessType || !address) {
+      setError("Please fill in all fields.");
+      return;
+    }
 
-    const json = await response.json();
-    console.log(json);
-  };
-
-  const submit = async (ev) => {
-    ev.preventDefault();
     try {
-      await businessFormAction({ 
-        name_full, 
-        street_address, 
-        city, 
-        state, 
-        zip, 
-        business_type, 
-        price_range, 
-        hasKidsSeating, 
-        hasChangingStation, 
-        features 
-      }, mode);
+      const response = await fetch('/api/businesses/create', {
+        method: 'POST',
+        body: JSON.stringify({ name, businessType, address, user_id: authId }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        onClose(); // Close the modal on successful submission
+      } else {
+        throw new Error("Failed to create business.");
+      }
     } catch (ex) {
-      setError(ex.error);
-      console.log(error);
+      setError(ex.message);
     }
   };
 
-  const businessTypes = [
-    { value: "restaurant", label: "Restaurant" },
-    { value: "Bar", label: "Bar" },
-    { value: "store", label: "Store" },
-    { value: "service", label: "Service" }
-  ]
-
   return (
-    <form onSubmit={submit}>
-      { !!error && <div className='error'>{error}</div> }
-      <input 
-        value={name_full} 
-        placeholder='Business Name' 
-        onChange={ev => setName_Full(ev.target.value)} 
+    <form onSubmit={handleSubmit}>
+      <Typography variant="h6">Add New Business</Typography>
+      {error && <div className='error'>{error}</div>}
+      <TextField 
+        label="Business Name" 
+        variant="outlined" 
+        value={name} 
+        onChange={(e) => setName(e.target.value)} 
+        fullWidth 
+        margin="normal" 
       />
-      <input 
-        value={street_address} 
-        placeholder='Street Address' 
-        onChange={ev => setStreet_Address(ev.target.value)} 
+      <TextField 
+        label="Business Type" 
+        variant="outlined" 
+        value={businessType} 
+        onChange={(e) => setBusinessType(e.target.value)} 
+        fullWidth 
+        margin="normal" 
       />
-      <input 
-        value={city} 
-        placeholder='City' 
-        onChange={ev => setCity(ev.target.value)} 
+      <TextField 
+        label="Street Address" 
+        variant="outlined" 
+        value={address} 
+        onChange={(e) => setAddress(e.target.value)} 
+        fullWidth 
+        margin="normal" 
       />
-      <input 
-        value={state} 
-        placeholder='State' 
-        onChange={ev => setState(ev.target.value)} 
-      />
-      <input 
-        value={zip} 
-        placeholder='ZIP Code' 
-        onChange={ev => setZip(ev.target.value)} 
-      />
-      <select value={business_type}  
-        onChange={ev => setBusiness_Type(ev.target.value)} >
-          {businessTypes.map((type) => (
-            <option key={type.value} value={type.value}>
-              {type.label}
-            </option>
-          ))}
-        </select>
-      
-      <select value={price_range} onChange={ev => setPrice_Range(ev.target.value)}>
-        <option value="$">$</option>
-        <option value="$$">$$</option>
-        <option value="$$$">$$$</option>
-        <option value="$$$$">$$$$</option>
-      </select>
-      <label>
-        <input 
-          type="checkbox" 
-          checked={hasKidsSeating} 
-          onChange={ev => setHasKidsSeating(ev.target.checked)} 
-        />
-        Has Kids Seating
-      </label>
-      <label>
-        <input 
-          type="checkbox" 
-          checked={hasChangingStation} 
-          onChange={ev => setHasChangingStation(ev.target.checked)} 
-        />
-        Has Changing Station
-      </label>
-      <textarea 
-        placeholder='Kids Seating Options (comma-separated)' 
-        onChange={ev => 
-          setFeatures(prev => ({
-            ...prev, 
-            kidsSeatingOptions: ev.target.value.split(',').map(option => option.trim())
-          }))
-        } 
-      />
-      <textarea 
-        placeholder='Changing Station Locations (comma-separated)' 
-        onChange={ev => 
-          setFeatures(prev => ({
-            ...prev, 
-            changingStationLocations: ev.target.value.split(',').map(location => location.trim())
-          }))
-        } 
-      />
-      <button>{mode === 'create' ? 'Create Business' : 'Update Business'}</button>
+      <Button type="submit" variant="contained" color="primary" style={{ marginTop: '16px' }}>
+        Submit
+      </Button>
     </form>
   );
 };
