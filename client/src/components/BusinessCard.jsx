@@ -11,7 +11,6 @@ function BusinessCard({ business, auth }) {
 
   return (
     <Card
-      onClick={handleCardClick}
       sx={{
         cursor: 'pointer',
         maxWidth: 345,
@@ -19,10 +18,10 @@ function BusinessCard({ business, auth }) {
         '&:hover': {
           backgroundColor: '#f5f5f5',
         },
-        mb: 2, // Adding some margin at the bottom
+        mb: 2, 
       }}
     >
-      <CardContent>
+      <CardContent onClick={handleCardClick}>
         {business?.image_url ? (
           <Avatar
             src={business.image_url}

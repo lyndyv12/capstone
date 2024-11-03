@@ -8,7 +8,6 @@ import {
     Container,
     Alert,
     IconButton,
-    Collapse,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
@@ -17,6 +16,7 @@ function BusinessReviews() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const { id } = useParams();
+    const [expandedReviewIndex, setExpandedReviewIndex] = useState(null);
 
     useEffect(() => {
         const getBusinessReviews = async () => {
@@ -39,6 +39,16 @@ function BusinessReviews() {
         }
     }, [id]);
 
+    const shortDescription = (description) => {
+        return description.length > 200
+            ? description.substring(0, 200) + '...'
+            : description;
+    };
+
+    const toggleExpand = (index) => {
+        setExpandedReviewIndex(expandedReviewIndex === index ? null : index);
+    };
+
     return (
         <Container>
             <h1>Reviews</h1>
@@ -49,30 +59,21 @@ function BusinessReviews() {
             ) : (
                 <div>
                     {businessReviews.length > 0 ? (
-                        businessReviews.map((review) => (
+                        businessReviews.map((review, index) => (
                             <Card key={review.id} variant="outlined" sx={{ mb: 2 }}>
                                 <CardContent>
                                     <Typography variant="h5">{review.title}</Typography>
                                     <Typography variant="subtitle1">Author: {review.username}</Typography>
                                     <Typography variant="body2">{review.rating}/5</Typography>
 
-                                    {/* Short description */}
                                     <Typography variant="body2" sx={{ mt: 1 }}>
-                                        {review.description.length > 100
-                                            ? review.description.substring(0, 100) + '...'
-                                            : review.description}
+                                        {expandedReviewIndex === index ? review.description : shortDescription(review.description)}
                                     </Typography>
-
-                                    {/* Expand button */}
-                                    {review.description.length > 100 && (
-                                        <>
-                                            <IconButton onClick={() => (review.isExpanded = !review.isExpanded)}>
-                                                <ExpandMoreIcon />
-                                            </IconButton>
-                                            <Collapse in={review.isExpanded} timeout="auto" unmountOnExit>
-                                                <Typography variant="body2">{review.description}</Typography>
-                                            </Collapse>
-                                        </>
+                                    
+                                    {review.description.length > 200 && (
+                                        <IconButton onClick={() => toggleExpand(index)}>
+                                            <ExpandMoreIcon />
+                                        </IconButton>
                                     )}
                                 </CardContent>
                             </Card>

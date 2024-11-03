@@ -207,7 +207,7 @@ const init = async () => {
     }),
     createReview({ 
       title: "Best restuarant ever for kids", 
-      description: "they are great. We loved it.", 
+      description: "they are great. We loved it. Here is a really really really long review. Here is a really really really long review. Here is a really really really long review. Here is a really really really long review. Here is a really really really long review. Here is a really really really long review. Here is a really really really long review. Here is a really really really long review. Here is a really really really long review. ", 
       user_id: lucy.id, 
       business_id: biz2.id, 
       rating: 4
