@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import {
   Card,
   CardContent,
+  CardActions,
   Typography,
   Button,
   Dialog,
@@ -13,7 +14,7 @@ import {
 } from '@mui/material';
 import './UserReviews.css';
 
-function UserReviews({ UserId }) {
+function UserReviews({ UserId, auth }) {
   const [userReviews, setUserReviews] = useState([]);
   const [showModal, setShowModal] = useState(false); 
   const [editingReview, setEditingReview] = useState(null); 
@@ -23,6 +24,12 @@ function UserReviews({ UserId }) {
   });
 
   const UsersId = UserId || useParams().id;
+
+  function isUser() {
+    return UsersId === auth.auth.id;
+  }
+  
+
 
   useEffect(() => {
     const getUserReviews = async () => {
@@ -103,10 +110,15 @@ function UserReviews({ UserId }) {
             <Typography variant="h6" className="review-title">{review.title}</Typography>
             <Typography variant="body2" className="review-description">{review.description}</Typography>
             <Typography variant="body2" className="review-rating">Rating: {review.rating}</Typography>
-            <Button variant="outlined" onClick={() => handleEditClick(review)} className="modal-button">
-              Edit
-            </Button>
           </CardContent>
+          
+          {isUser() && (
+            <CardActions>
+              <Button variant="outlined" onClick={() => handleEditClick(review)} className="modal-button">
+                Edit
+              </Button>
+            </CardActions>
+          )}
         </Card>
       ))}
 

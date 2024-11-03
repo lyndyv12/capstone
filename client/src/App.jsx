@@ -162,7 +162,7 @@ function App() {
         <Route path="/createReview/:businessId" element={<CreateReview auth={auth} authAction={authAction} reviewFormAction={reviewFormAction} setRefreshReviews={setRefreshReviews} businesses={businesses} />} />
         <Route path="/businesses/:id" element={<BusinessDetail />} />
         <Route path="/users" element={<Users users={users} />} />
-        <Route path="/users/:id" element={<UserDetails users={users} />} />
+        <Route path="/users/:id" element={<UserDetails users={users} auth={auth} />} />
         <Route path="/account" element={<Account auth={auth} />} />
         <Route path="/admin" element={<Admin auth={auth} users={users} businesses={businesses}/>} />
         <Route path="/login" element={<Login authAction={authAction} />} /> 
