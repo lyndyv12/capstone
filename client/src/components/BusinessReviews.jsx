@@ -1,25 +1,27 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, CardContent, Typography, CircularProgress, Container } from '@mui/material';
+import { Card, CardContent, Typography, CircularProgress, Container, Alert } from '@mui/material';
+import './BusinessReviews.css';
 
 function BusinessReviews() {
     const [businessReviews, setBusinessReviews] = useState([]);
-    const [loading, setLoading] = useState(true); // To manage loading state
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const { id } = useParams();
 
     useEffect(() => {
-        console.log("Fetched business ID:", id);
-
         const getBusinessReviews = async () => {
             try {
                 const response = await fetch(`/api/businesses/${id}/reviews`);
+                if (!response.ok) {
+                    throw new Error("Failed to fetch reviews");
+                }
                 const data = await response.json();
-                console.log("Fetched business reviews:", data);
                 setBusinessReviews(data);
             } catch (error) {
-                console.error("Error fetching business reviews:", error);
+                setError(error.message);
             } finally {
-                setLoading(false); // Set loading to false after fetching
+                setLoading(false);
             }
         };
 
@@ -31,14 +33,21 @@ function BusinessReviews() {
     return (
         <Container>
             {loading ? (
-                <CircularProgress style={{ marginTop: '16px' }} />
+                <CircularProgress className="loading-spinner" />
+            ) : error ? (
+                <Alert severity="error" className="error-alert">
+                    {error}
+                </Alert>
             ) : (
                 <div>
                     {businessReviews.length > 0 ? (
                         businessReviews.map((review) => (
-                            <Card key={review.id} variant="outlined" style={{ margin: '8px 0' }}>
+                            <Card key={review.id} variant="outlined" className="review-card">
                                 <CardContent>
-                                    <Typography variant="h6">{review.username}</Typography>
+                                    <Typography variant="h5" color="text.primary" className="review-title">
+                                        {review.title}
+                                    </Typography>
+                                    <Typography variant="h6">Author: {review.username}</Typography>
                                     <Typography variant="body2" color="text.secondary">
                                         {review.rating}/5 - {review.description}
                                     </Typography>
@@ -46,7 +55,7 @@ function BusinessReviews() {
                             </Card>
                         ))
                     ) : (
-                        <Typography variant="body1" color="text.secondary">
+                        <Typography variant="body1" color="text.secondary" className="no-reviews">
                             No reviews found.
                         </Typography>
                     )}

@@ -12,6 +12,7 @@ import { AppBar, Toolbar, Button, Typography } from '@mui/material';
 import Login from './components/Login';
 import Register from './components/Register';
 import UserCard from "./components/UserCard";
+import UserDetails from "./pages/UserDetails";
 
 function App() {
   const [auth, setAuth] = useState({});
@@ -161,7 +162,7 @@ function App() {
         <Route path="/createReview/:businessId" element={<CreateReview auth={auth} authAction={authAction} reviewFormAction={reviewFormAction} setRefreshReviews={setRefreshReviews} businesses={businesses} />} />
         <Route path="/businesses/:id" element={<BusinessDetail />} />
         <Route path="/users" element={<Users users={users} />} />
-        <Route path="/users/:id" element={<UserReviews users={users} />} />
+        <Route path="/users/:id" element={<UserDetails users={users} />} />
         <Route path="/account" element={<Account auth={auth} />} />
         <Route path="/admin" element={<Admin auth={auth} users={users} businesses={businesses}/>} />
         <Route path="/login" element={<Login authAction={authAction} />} /> 

@@ -54,7 +54,10 @@ const fetchBusinesses = async () => {
     SELECT 
       b.*, 
       COUNT(r.id) AS review_count, 
-      AVG(r.rating) AS review_avgrating
+      CASE 
+        WHEN COUNT(r.id) = 0 THEN 'N/A' 
+        ELSE ROUND(AVG(r.rating), 1)::text 
+      END AS review_avgrating
     FROM businesses b
     LEFT JOIN reviews r ON b.id = r.business_id
     GROUP BY b.id;

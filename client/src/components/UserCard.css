@@ -5,6 +5,12 @@
     text-align: left;
   }
   
+  .user-avatar {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 8px;
+  }
+
   .user-button {
     margin-top: 8px;
   }
@@ -18,4 +24,3 @@
     font-size: 0.9rem;
     color: #666;
   }
-  

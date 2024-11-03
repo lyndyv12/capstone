@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import BusinessCard from "./BusinessCard";
-import { TextField, Select, MenuItem, InputLabel, FormControl, Grid, Typography } from "@mui/material";
+import { TextField, Select, MenuItem, InputLabel, FormControl, Typography } from "@mui/material";
+import Grid from '@mui/material/Grid2';
+
 
 function BusinessesContainer({ businesses, auth }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -14,10 +16,10 @@ function BusinessesContainer({ businesses, auth }) {
 
   const businessTypes = [
     { value: "all", label: "All Types" },
-    { value: "restaurant", label: "Restaurant" },
-    { value: "bar", label: "Bar" },
-    { value: "store", label: "Store" },
-    { value: "service", label: "Service" },
+    { value: "Restaurant", label: "Restaurant" },
+    { value: "Bar", label: "Bar" },
+    { value: "Store", label: "Store" },
+    { value: "Service", label: "Service" },
   ];
 
   const handleSearchChange = (e) => {

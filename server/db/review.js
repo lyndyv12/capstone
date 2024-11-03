@@ -25,7 +25,9 @@ const createReview = async ({ title, description, user_id, business_id, rating }
 
 const fetchReviews = async () => {
   const SQL = `
-    SELECT id, title, description, user_id, business_id, rating FROM reviews;
+    SELECT reviews.id, reviews.title, reviews.description, reviews.user_id, reviews.business_id, reviews.rating, users.username
+    FROM reviews
+    JOIN users ON reviews.user_id = users.id;
   `;
   const response = await client.query(SQL);
   return response.rows;
@@ -34,30 +36,25 @@ const fetchReviews = async () => {
 const getUsersReviews = async(user_id) => {
   try {
     const SQL = `
-      SELECT reviews.id AS review_id, reviews.title, reviews.description, reviews.rating
+      SELECT reviews.id AS review_id, reviews.title, reviews.description, reviews.rating, users.username
       FROM reviews
       JOIN users ON reviews.user_id = users.id
       WHERE users.id = $1;
     `;
-
     const { rows } = await client.query(SQL, [user_id]);
-    if(!rows) 
-      return;
-    console.log(rows);
     return rows;
-
   } catch (err) { 
-    throw(err)
+    throw err;
   }
-}
+};
 
 const getBusinessReviews = async (business_id) => {
   try {
     const SQL = `
-      SELECT *
-      FROM reviews r
-      JOIN businesses b ON r.business_id = b.id
-      WHERE r.business_id = $1;
+      SELECT reviews.id, reviews.title, reviews.description, reviews.rating, reviews.user_id, users.username
+      FROM reviews
+      JOIN users ON reviews.user_id = users.id
+      WHERE reviews.business_id = $1;
     `;
     const { rows } = await client.query(SQL, [business_id]);
     return rows;

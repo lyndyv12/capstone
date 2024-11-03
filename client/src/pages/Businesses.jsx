@@ -1,7 +1,8 @@
+import React, { useState } from "react";
 import BusinessForm from "../components/BusinessForm";
 import BusinessesContainer from "../components/BusinessesContainer";
-import { useState } from "react";
 import Modal from "../components/Modal";
+import { Container, Typography, Button } from "@mui/material";
 
 const Businesses = ({ auth, businesses, businessFormAction }) => {
   const [showModal, setShowModal] = useState(false);
@@ -10,13 +11,14 @@ const Businesses = ({ auth, businesses, businessFormAction }) => {
   const handleCloseModal = () => setShowModal(false);
 
   return (
-    <div>
-      <h1>Businesses ({businesses.length})</h1>
-      <p>Display some interesting information about our {businesses.length} businesses.</p>
-      <div>
-        <BusinessesContainer businesses={businesses} auth={auth} />
-      </div>
-      <button onClick={handleOpenModal}>Add New Business</button>
+    <Container>
+      <Typography variant="h4" gutterBottom>
+        Businesses ({businesses.length})
+      </Typography>
+      <Typography variant="subtitle1" gutterBottom>
+        Display some interesting information about our {businesses.length} businesses.
+      </Typography>
+      <BusinessesContainer businesses={businesses} auth={auth} />
 
       <Modal show={showModal} onClose={handleCloseModal}>
         <BusinessForm 
@@ -25,9 +27,10 @@ const Businesses = ({ auth, businesses, businessFormAction }) => {
           onClose={handleCloseModal} 
         />
       </Modal>
-    </div>
+    </Container>
   );
 }
 
 export default Businesses;
+
 
