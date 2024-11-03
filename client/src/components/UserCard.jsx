@@ -1,39 +1,48 @@
 import React from 'react';
-import { Button, Card, CardContent, Avatar } from '@mui/material'; // MUI components
+import { Card, CardContent, Avatar, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import './UserCard.css';
 
 function UserCard({ user, auth }) {
   const navigate = useNavigate();
 
+  const handleCardClick = () => {
+    navigate(`/users/${user.id}`, { state: { user } });
+  };
+
   return (
-    <Card className="user-card">
+    <Card
+      onClick={handleCardClick}
+      sx={{
+        cursor: 'pointer',
+        maxWidth: 345,
+        transition: 'background-color 0.3s',
+        '&:hover': {
+          backgroundColor: '#f5f5f5',
+        },
+      }}
+    >
       <CardContent>
         <Avatar 
           src={user.image_url} 
           alt={`${user.first_name || user.username}'s profile`}
-          className="user-avatar"
+          sx={{ width: 56, height: 56, mb: 2 }}
         />
 
-        <h2>{user.username || 'Loading...'}</h2>
-        <p>Reviews: {user.review_count || 'Loading...'}</p>
-
-        <Button
-          className="user-button"
-          variant="contained"
-          color="primary"
-          onClick={() => navigate(`/users/${user.id}`, { state: { user } })}
-        >
-          See Details
-        </Button>
+        <Typography variant="h6">
+          {user.username || 'Loading...'}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Reviews: {user.review_count || 'Loading...'}
+        </Typography>
 
         {auth?.isadmin && (
-          <div className="admin-section">
-            <p className="admin-info">Is an admin: {String(user.isadmin)}</p>
-            <p className="admin-info">Email: {user.email || 'No Email Provided'}</p>
-            <Button variant="outlined" color="secondary">
-              Delete {user.username}
-            </Button>
+          <div style={{ marginTop: '1rem' }}>
+            <Typography variant="body2" color="text.secondary">
+              Is an admin: {String(user.isadmin)}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Email: {user.email || 'No Email Provided'}
+            </Typography>
           </div>
         )}
       </CardContent>

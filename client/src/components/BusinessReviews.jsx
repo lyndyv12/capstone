@@ -1,7 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, CardContent, Typography, CircularProgress, Container, Alert } from '@mui/material';
-import './BusinessReviews.css';
+import {
+    Card,
+    CardContent,
+    Typography,
+    CircularProgress,
+    Container,
+    Alert,
+    IconButton,
+    Collapse,
+} from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 function BusinessReviews() {
     const [businessReviews, setBusinessReviews] = useState([]);
@@ -32,32 +41,44 @@ function BusinessReviews() {
 
     return (
         <Container>
+            <h1>Reviews</h1>
             {loading ? (
-                <CircularProgress className="loading-spinner" />
+                <CircularProgress />
             ) : error ? (
-                <Alert severity="error" className="error-alert">
-                    {error}
-                </Alert>
+                <Alert severity="error">{error}</Alert>
             ) : (
                 <div>
                     {businessReviews.length > 0 ? (
                         businessReviews.map((review) => (
-                            <Card key={review.id} variant="outlined" className="review-card">
+                            <Card key={review.id} variant="outlined" sx={{ mb: 2 }}>
                                 <CardContent>
-                                    <Typography variant="h5" color="text.primary" className="review-title">
-                                        {review.title}
+                                    <Typography variant="h5">{review.title}</Typography>
+                                    <Typography variant="subtitle1">Author: {review.username}</Typography>
+                                    <Typography variant="body2">{review.rating}/5</Typography>
+
+                                    {/* Short description */}
+                                    <Typography variant="body2" sx={{ mt: 1 }}>
+                                        {review.description.length > 100
+                                            ? review.description.substring(0, 100) + '...'
+                                            : review.description}
                                     </Typography>
-                                    <Typography variant="h6">Author: {review.username}</Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        {review.rating}/5 - {review.description}
-                                    </Typography>
+
+                                    {/* Expand button */}
+                                    {review.description.length > 100 && (
+                                        <>
+                                            <IconButton onClick={() => (review.isExpanded = !review.isExpanded)}>
+                                                <ExpandMoreIcon />
+                                            </IconButton>
+                                            <Collapse in={review.isExpanded} timeout="auto" unmountOnExit>
+                                                <Typography variant="body2">{review.description}</Typography>
+                                            </Collapse>
+                                        </>
+                                    )}
                                 </CardContent>
                             </Card>
                         ))
                     ) : (
-                        <Typography variant="body1" color="text.secondary" className="no-reviews">
-                            No reviews found.
-                        </Typography>
+                        <Typography>No reviews found.</Typography>
                     )}
                 </div>
             )}

@@ -1,29 +1,45 @@
 import React from "react";
-import { Card, CardContent, CardActions, Typography, Button } from "@mui/material";
+import { Card, CardContent, CardActions, Typography, Button, Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import './BusinessCard.css'; // Import your CSS file
 
 function BusinessCard({ business, auth }) {
   const navigate = useNavigate();
 
+  const handleCardClick = () => {
+    navigate(`/businesses/${business.id}`);
+  };
+
   return (
-    <Card>
+    <Card
+      onClick={handleCardClick}
+      sx={{
+        cursor: 'pointer',
+        maxWidth: 345,
+        transition: 'background-color 0.3s',
+        '&:hover': {
+          backgroundColor: '#f5f5f5',
+        },
+        mb: 2, // Adding some margin at the bottom
+      }}
+    >
       <CardContent>
-        {business?.image_url && (
-          <img 
-            src={business.image_url} 
-            alt={business.name_full} 
-            className="business-image" 
+        {business?.image_url ? (
+          <Avatar
+            src={business.image_url}
+            alt={business.name_full}
+            sx={{ width: 56, height: 56, mb: 2 }}
           />
+        ) : (
+          <Avatar sx={{ width: 56, height: 56, mb: 2 }}>B</Avatar>
         )}
-        <Typography variant="h5">
-          Name: {business?.name_full || "Loading..."}
+        <Typography variant="h6">
+          {business?.name_full || "Loading..."}
         </Typography>
-        <Typography color="textSecondary">
-          Type: {business?.business_type}<br />
-          Review Count: {business?.review_count}<br />
-          Rating: {business?.review_avgrating}<br />
-          Address: {business?.street_address}
+        <Typography variant="body2" color="text.secondary">
+          Type: {business?.business_type || "N/A"}<br />
+          Review Count: {business?.review_count || 0}<br />
+          Rating: {business?.review_avgrating || "N/A"}<br />
+          Address: {business?.street_address || "N/A"}
         </Typography>
       </CardContent>
       <CardActions>
