@@ -27,8 +27,6 @@ function UserReviews({ UserId, auth }) {
   const UsersId = UserId || useParams().id;
   const currentUserId = auth?.id;
   const isUser = () => {
-    console.log(UsersId);
-    console.log(currentUserId); 
     return UsersId === currentUserId;
   };
   
@@ -113,6 +111,7 @@ function UserReviews({ UserId, auth }) {
       {userReviews.map((review) => (
         <Card key={review.review_id} className="review-card">
           <CardContent>
+            <Typography variant="h4">{review.business_name}</Typography>
             <Typography variant="h6" className="review-title">{review.title}</Typography>
             <Typography variant="body2" className="review-description">{review.description}</Typography>
             <Typography variant="body2" className="review-rating">Rating: {review.rating}</Typography>

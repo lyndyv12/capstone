@@ -33,12 +33,19 @@ const fetchReviews = async () => {
   return response.rows;
 };
 
-const getUsersReviews = async(user_id) => {
+const getUsersReviews = async (user_id) => {
   try {
     const SQL = `
-      SELECT reviews.id AS review_id, reviews.title, reviews.description, reviews.rating, users.username
+      SELECT 
+        reviews.id AS review_id,
+        reviews.title,
+        reviews.description,
+        reviews.rating,
+        users.username,
+        businesses.name_full AS business_name
       FROM reviews
       JOIN users ON reviews.user_id = users.id
+      JOIN businesses ON reviews.business_id = businesses.id
       WHERE users.id = $1;
     `;
     const { rows } = await client.query(SQL, [user_id]);
