@@ -11,7 +11,7 @@ const Admin = ({ auth, users, businesses }) => {
       <h2>Add a business</h2>
       <BusinessForm />
       <h2>Businesses</h2>
-      <BusinessesContainer businesses={businesses}/>
+      <BusinessesContainer businesses={businesses} auth={auth}/>
 
       <h2>Users</h2>
       {users.map((user)=>(

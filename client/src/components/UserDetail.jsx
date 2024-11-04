@@ -1,9 +1,9 @@
 import { useLocation } from 'react-router-dom';
 import { Avatar, Card, CardContent, Box, Typography } from '@mui/material';
 
-function UserDetail() {
+function UserDetail( {user} ) {
   const location = useLocation();
-  const userDetails = location.state?.user;
+  const userDetails = user||location.state?.user;
 
   if (!userDetails) {
     return <div>No user details available.</div>;

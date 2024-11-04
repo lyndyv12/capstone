@@ -11,7 +11,7 @@ function UserDetails( auth ) {
   return (
     <div>
       <UserDetail UserId={id} />
-      <UserReviews UserId={id} auth={auth} />
+      <UserReviews UserId={id} auth={auth.auth} />
     </div>
   );
 }

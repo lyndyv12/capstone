@@ -23,11 +23,17 @@ function UserReviews({ UserId, auth }) {
     rating: ""
   });
 
-  const UsersId = UserId || useParams().id;
 
-  function isUser() {
-    return UsersId === auth.auth.id;
-  }
+  const UsersId = UserId || useParams().id;
+  const currentUserId = auth?.id;
+  const isUser = () => {
+    console.log(UsersId);
+    console.log(currentUserId); 
+    return UsersId === currentUserId;
+  };
+  
+
+
   
 
 

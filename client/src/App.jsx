@@ -13,6 +13,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import UserCard from "./components/UserCard";
 import UserDetails from "./pages/UserDetails";
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const [auth, setAuth] = useState({});
@@ -118,7 +119,9 @@ function App() {
     }
   };
 
-  console.log(auth)
+  const navigate = useNavigate();
+
+
 
   return (
     <div>
@@ -142,12 +145,18 @@ function App() {
             </Link>
           )}
           {auth.id ? (
-            <Button onClick={() => {
-              window.localStorage.removeItem("token");
-              setAuth({});}} 
-              color="inherit">
-              Logout
-            </Button>
+            <div>
+              <Link to="/account">
+                <Button color="inherit">Account</Button>
+              </Link>
+              <Button onClick={() => {
+                window.localStorage.removeItem("token");
+                setAuth({});
+                navigate('/');}} 
+                color="inherit">
+                Logout
+              </Button>
+            </div>
           ) : (
             <Link to="/login">
               <Button color="inherit">Login</Button>
@@ -162,7 +171,7 @@ function App() {
         <Route path="/createReview/:businessId" element={<CreateReview auth={auth} authAction={authAction} reviewFormAction={reviewFormAction} setRefreshReviews={setRefreshReviews} businesses={businesses} />} />
         <Route path="/businesses/:id" element={<BusinessDetail />} />
         <Route path="/users" element={<Users users={users} />} />
-        <Route path="/users/:id" element={<UserDetails users={users} auth={auth} />} />
+        <Route path="/users/:id" element={<UserDetails auth={auth} users={users}  />} />
         <Route path="/account" element={<Account auth={auth} />} />
         <Route path="/admin" element={<Admin auth={auth} users={users} businesses={businesses}/>} />
         <Route path="/login" element={<Login authAction={authAction} />} /> 

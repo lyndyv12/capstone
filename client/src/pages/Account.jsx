@@ -1,10 +1,15 @@
 import UserReviews from "../components/UserReviews";
+import UserDetail from "../components/UserDetail";
+
+
 
 const Account = ({ auth }) => {
+  console.log(auth)
   return (
     <div>
-      {auth.username}
-      <UserReviews UserId= {auth.id}/>
+      Hi {auth.username}!
+      <UserDetail user={ auth } />
+      <UserReviews auth={ auth } UserId={ auth.id } />
     </div>
   );
 };

@@ -25,7 +25,6 @@ const Home = ({ auth, authAction, businesses, users, reviews }) => {
         </Typography>
       </Box>
 
-      {/* Only show the AuthForm if the user is not authenticated */}
       {!auth.id && (
         <Box mt={4}>
           <Typography variant="h2" gutterBottom>
@@ -41,9 +40,6 @@ const Home = ({ auth, authAction, businesses, users, reviews }) => {
         </Typography>
         <MUILink href="/businesses" variant="body1" display="block" sx={{ mb: 1 }}>
           View Businesses
-        </MUILink>
-        <MUILink href="/createReview" variant="body1" display="block" sx={{ mb: 1 }}>
-          Write a Review
         </MUILink>
         <MUILink href="/users" variant="body1" display="block">
           View Users

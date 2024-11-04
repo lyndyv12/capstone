@@ -105,4 +105,29 @@ const authenticate = async ({ username, password }) => {
   return { token };
 };
 
-module.exports = { createUser, findUserWithToken, fetchUsers, getUsersWithReviewSummary, authenticate };
+
+const deleteUser = async (userId) => {
+  const deleteReviews = `
+    DELETE FROM reviews
+    WHERE user_id = $1;
+  `;
+
+  await client.query(deleteReviews, [userId]);
+
+  const deleteFromUsers = `
+    DELETE FROM users
+    WHERE id = $1 RETURNING *;
+  `;
+
+  const response = await client.query(deleteFromUsers, [userId]);
+  
+  if (response.rowCount === 0) {
+    const error = Error("User not found");
+    error.status = 404;
+    throw error;
+  }
+  
+  return response.rows[0]; 
+};
+
+module.exports = { createUser, findUserWithToken, fetchUsers, getUsersWithReviewSummary, authenticate, deleteUser };

@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-const { fetchUsers, getUsersReviews, getUsersWithReviewSummary } = require("../db");
+const { fetchUsers, getUsersReviews, getUsersWithReviewSummary, deleteUser } = require("../db");
+const { authMiddleware } = require("./utils");
+
+
 
 router.get("/", async (req, res, next) => {
   try {
@@ -32,5 +35,22 @@ router.get("/:id/reviews", async (req, res, next) => {
     next(ex);
   }
 });
+
+
+router.delete("/:id", authMiddleware, async (req, res) => {
+  console.log(req)
+  const userId = req.params.id;
+
+
+
+
+  try {
+    const deletedUser = await deleteUser(userId);
+    res.status(200).json({ message: "User deleted successfully", user: deletedUser });
+  } catch (error) {
+    res.status(error.status || 500).json({ message: error.message });
+  }
+});
+
 
 module.exports = router;

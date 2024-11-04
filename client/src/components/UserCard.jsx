@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent, Avatar, Typography } from '@mui/material';
+import { Button, Card, CardContent, CardActions, Avatar, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 function UserCard({ user, auth }) {
@@ -9,9 +9,35 @@ function UserCard({ user, auth }) {
     navigate(`/users/${user.id}`, { state: { user } });
   };
 
+  function handleDeleteClick(userId) {
+    
+    const token = window.localStorage.getItem("token"); 
+  
+    fetch(`/api/users/${userId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Failed to delete user'); 
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data.message); 
+      // Optionally, update state or redirect as needed after deletion
+    })
+    .catch((error) => {
+      console.error(error.message); 
+    });
+  }
+
   return (
     <Card
-      onClick={handleCardClick}
       sx={{
         cursor: 'pointer',
         maxWidth: 345,
@@ -21,7 +47,7 @@ function UserCard({ user, auth }) {
         },
       }}
     >
-      <CardContent>
+      <CardContent onClick={handleCardClick}>
         <Avatar 
           src={user.image_url} 
           alt={`${user.first_name || user.username}'s profile`}
@@ -34,9 +60,14 @@ function UserCard({ user, auth }) {
         <Typography variant="body2" color="text.secondary">
           Reviews: {user.review_count || 'Loading...'}
         </Typography>
-
-        {auth?.isadmin && (
-          <div style={{ marginTop: '1rem' }}>
+      </CardContent>
+      {auth?.isadmin && (
+          <div>
+            <CardActions>
+              <Button variant="outlined" onClick={() => handleDeleteClick(user.id)}>
+                Delete User
+              </Button>
+            </CardActions>
             <Typography variant="body2" color="text.secondary">
               Is an admin: {String(user.isadmin)}
             </Typography>
@@ -45,7 +76,6 @@ function UserCard({ user, auth }) {
             </Typography>
           </div>
         )}
-      </CardContent>
     </Card>
   );
 }
