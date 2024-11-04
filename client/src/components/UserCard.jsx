@@ -29,7 +29,7 @@ function UserCard({ user, auth }) {
     })
     .then((data) => {
       console.log(data.message); 
-      // Optionally, update state or redirect as needed after deletion
+      // Need to lift state 
     })
     .catch((error) => {
       console.error(error.message); 
