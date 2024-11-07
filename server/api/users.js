@@ -38,7 +38,6 @@ router.get("/:id/reviews", async (req, res, next) => {
 
 
 router.delete("/:id", authMiddleware, async (req, res) => {
-  console.log(req)
   const userId = req.params.id;
 
 

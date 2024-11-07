@@ -19,10 +19,8 @@ const authMiddleware = async (req, res, next) => {
   const token = authHeader.split(" ")[1];
 
   try {
-    console.log("Token received:", token);
     const user = await findUserWithToken(token);
     req.user = user;
-    console.log (req.user)
     next();
   } catch (error) {
     res.status(401).json({ message: error.message || "Unauthorized access" });

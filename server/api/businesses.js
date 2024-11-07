@@ -14,7 +14,6 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
     try {
         const id = req.params.id;
-        console.log(id);
 
         if (req.params.id === " ") {
             next({
@@ -37,7 +36,6 @@ router.get("/:id", async (req, res, next) => {
   router.get("/:id/reviews", async (req, res, next) => {
     try {
         const id = req.params.id;
-        console.log(id);
 
         if (req.params.id === " ") {
             next({

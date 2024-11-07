@@ -4,9 +4,6 @@ import UserReviews from '../components/UserReviews';
 
 function UserDetails( auth ) {
   const { id } = useParams(); 
-  console.log(auth)
-  console.log(auth)
-  console.log(auth)
 
   return (
     <div>

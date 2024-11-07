@@ -110,10 +110,10 @@ function App() {
 
       if (!response.ok) {
         const json = await response.json();
-        throw json; // Handle error
+        throw json;
       }
 
-      setRefreshReviews(true); // Trigger a refresh of reviews
+      setRefreshReviews(true); 
     } catch (error) {
       console.error("Error submitting review:", error);
     }

@@ -4,7 +4,6 @@ import UserDetail from "../components/UserDetail";
 
 
 const Account = ({ auth }) => {
-  console.log(auth)
   return (
     <div>
       Hi {auth.username}!

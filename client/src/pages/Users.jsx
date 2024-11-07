@@ -1,6 +1,6 @@
 import React from 'react';
 import UsersContainer from "../components/UsersContainer";
-import { Container } from '@mui/material'; // MUI Container component
+import { Container } from '@mui/material'; 
 import './Users.css';
 
 const Users = ({ users }) => {

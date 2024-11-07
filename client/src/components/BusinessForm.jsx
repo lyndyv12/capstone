@@ -5,12 +5,12 @@ const BusinessForm = ({ authId, onClose }) => {
   const [name, setName] = useState('');
   const [businessType, setBusinessType] = useState('');
   const [address, setAddress] = useState('');
-  const [imageUrl, setImageUrl] = useState(''); // New state for image URL
+  const [imageUrl, setImageUrl] = useState(''); 
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name || !businessType || !address || !imageUrl) { // Check for image URL
+    if (!name || !businessType || !address || !imageUrl) { 
       setError("Please fill in all fields.");
       return;
     }
@@ -18,14 +18,14 @@ const BusinessForm = ({ authId, onClose }) => {
     try {
       const response = await fetch('/api/businesses/create', {
         method: 'POST',
-        body: JSON.stringify({ name, businessType, address, imageUrl, user_id: authId }), // Include imageUrl in the request
+        body: JSON.stringify({ name, businessType, address, imageUrl, user_id: authId }), 
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
       if (response.ok) {
-        onClose(); // Close the modal on successful submission
+        onClose();
       } else {
         throw new Error("Failed to create business.");
       }
@@ -63,7 +63,7 @@ const BusinessForm = ({ authId, onClose }) => {
         margin="normal" 
       />
       <TextField 
-        label="Image URL" // New input for image URL
+        label="Image URL" 
         variant="outlined" 
         value={imageUrl} 
         onChange={(e) => setImageUrl(e.target.value)} 
