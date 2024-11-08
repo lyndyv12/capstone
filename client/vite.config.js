@@ -13,7 +13,7 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      external: ['@mui/material', '@mui/icons-material/'],
+      external: ['@mui/material/*', '@mui/icons-material/*'],
     },
   },
 })
