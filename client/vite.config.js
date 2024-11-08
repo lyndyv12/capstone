@@ -10,5 +10,10 @@ export default defineConfig({
     proxy: {
       '/api': `http://localhost:${ serverPort || 3000}`
     }
-  }
+  },
+  build: {
+    rollupOptions: {
+      external: ['@mui/material'],
+    },
+  },
 })
