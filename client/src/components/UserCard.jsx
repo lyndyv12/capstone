@@ -72,7 +72,7 @@ function UserCard({ user, auth }) {
               Is an admin: {String(user.isadmin)}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Email: {user.email || 'No Email Provided'}
+              Email: {user.email || 'No Email was provided'}
             </Typography>
           </div>
         )}
