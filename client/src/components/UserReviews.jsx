@@ -38,7 +38,7 @@ function UserReviews({ UserId, auth }) {
   useEffect(() => {
     const getUserReviews = async () => {
       try {
-        const response = await fetch(`/api/users/${UsersId}/reviews`);
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/${UsersId}/reviews`);
         const data = await response.json();
         setUserReviews(data);
       } catch (error) {
@@ -67,7 +67,7 @@ function UserReviews({ UserId, auth }) {
 
   const handleSaveClick = async (reviewId) => {
     try {
-      const response = await fetch(`/api/reviews/${reviewId}`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/reviews/${reviewId}`, {
         method: 'PUT', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(editedReview),
@@ -93,7 +93,7 @@ function UserReviews({ UserId, auth }) {
 
   const handleDeleteClick = async (reviewId) => {
     try {
-      await fetch(`/api/reviews/${reviewId}`, { method: 'DELETE' });
+      await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/reviews/${reviewId}`, { method: 'DELETE' });
 
       setUserReviews((prevReviews) =>
         prevReviews.filter((review) => review.review_id !== reviewId)

@@ -21,7 +21,7 @@ const ReviewForm = ({ authId, mode = 'create', businesses, setRefreshReviews, bu
   const [error, setError] = useState('');
 
   const reviewFormAction = async (details, mode) => {
-    const response = await fetch(`/api/reviews/${mode}`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/reviews/${mode}`, {
       method: 'POST',
       body: JSON.stringify(details),
       headers: { 'Content-Type': 'application/json' },

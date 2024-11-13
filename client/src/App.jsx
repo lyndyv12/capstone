@@ -32,7 +32,7 @@ function App() {
   const attemptLoginWithToken = async () => {
     const token = window.localStorage.getItem("token");
     if (token) {
-      const response = await fetch(`/api/auth/me`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/me`, {
         headers: {
           authorization: token,
         },
@@ -47,7 +47,7 @@ function App() {
   };
 
   const authAction = async (credentials, mode) => {
-    const response = await fetch(`/api/auth/${mode}`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/${mode}`, {
       method: "POST",
       body: JSON.stringify(credentials),
       headers: {
@@ -69,7 +69,7 @@ function App() {
 
   const getUsers = async () => {
     try {
-      const response = await fetch("/api/users/UsersWithReviewSummary");
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/UsersWithReviewSummary`);
       const data = await response.json();
       setUsers(data); 
     } catch (error) {
@@ -79,7 +79,7 @@ function App() {
 
   const getBusinesses = async () => {
     try {
-      const response = await fetch("/api/businesses");
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/businesses`);
       const data = await response.json();
       setBusinesses(data); 
     } catch (error) {
@@ -89,7 +89,7 @@ function App() {
 
   const getReviews = async () => {
     try {
-      const response = await fetch("/api/reviews");
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/reviews`);
       const data = await response.json();
       setReviews(data); 
     } catch (error) {
@@ -99,7 +99,7 @@ function App() {
 
   const reviewFormAction = async (reviewData) => {
     try {
-      const response = await fetch("/api/reviews", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/reviews`, {
         method: "POST",
         body: JSON.stringify(reviewData),
         headers: {

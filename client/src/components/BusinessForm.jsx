@@ -16,7 +16,7 @@ const BusinessForm = ({ authId, onClose }) => {
     }
 
     try {
-      const response = await fetch('/api/businesses/create', {
+      const response = await fetch('${import.meta.env.VITE_BACKEND_URL}/api/businesses/create', {
         method: 'POST',
         body: JSON.stringify({ name, businessType, address, imageUrl, user_id: authId }), 
         headers: {

@@ -10,7 +10,7 @@ function BusinessDetailCard() {
 
         const getBusinessDetails = async () => {
             try {
-                const response = await fetch(`/api/businesses/${id}`);
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/businesses/${id}`);
                 const data = await response.json();
                 setBusinessDetails(data);
             } catch (error) {

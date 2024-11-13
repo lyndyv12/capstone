@@ -21,7 +21,7 @@ function BusinessReviews() {
     useEffect(() => {
         const getBusinessReviews = async () => {
             try {
-                const response = await fetch(`/api/businesses/${id}/reviews`);
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/businesses/${id}/reviews`);
                 if (!response.ok) {
                     throw new Error("Failed to fetch reviews");
                 }
