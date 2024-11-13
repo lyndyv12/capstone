@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': `http://localhost:${ serverPort || 3000}`
+      '/api': `https://lvreviews.onrender.com/`
     }
   },
   build: {
