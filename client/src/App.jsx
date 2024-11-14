@@ -22,6 +22,8 @@ function App() {
   const [reviews, setReviews] = useState([]);
   const [refreshReviews, setRefreshReviews] = useState(false);
 
+  console.log(import.meta.env.VITE_BACKEND_URL);
+
   useEffect(() => {
     attemptLoginWithToken();
     getUsers();
@@ -70,6 +72,7 @@ function App() {
   const getUsers = async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/UsersWithReviewSummary`);
+      console.log("Fetching users from:", `${import.meta.env.VITE_BACKEND_URL}/api/users/UsersWithReviewSummary`);
       const data = await response.json();
       setUsers(data); 
     } catch (error) {
